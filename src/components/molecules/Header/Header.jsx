@@ -1,9 +1,9 @@
 import { React } from "react";
-import logo from "../../assets/logos/NinjaOneLogo.svg";
+import logo from "../../../assets/logos/NinjaOneLogo.svg";
 
-export const Navbar = () => {
+export const Header = () => {
   return (
-    <div className="bg-brand py-3">
+    <header className="bg-brand py-3">
       <div className="max-width w-11/12 mx-auto">
         <div className="flex items-start">
           <figure>
@@ -11,8 +11,8 @@ export const Navbar = () => {
           </figure>
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 
-export default Navbar;
+export default Header;
