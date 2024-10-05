@@ -1,19 +1,51 @@
 import { React } from "react";
-// import logo from "../../assets/logos/NinjaOneLogo.svg";
+import PropTypes from "prop-types";
+import { cx } from "classix";
 
-export const Dropdown = () => {
+export const Dropdown = ({ position, name, items, className, children }) => {
   return (
-    <select className="select select-bordered w-full max-w-xs">
-      <option disabled selected>
-        Pick your favorite Simpson
-      </option>
-      <option>Homer</option>
-      <option>Marge</option>
-      <option>Bart</option>
-      <option>Lisa</option>
-      <option>Maggie</option>
-    </select>
+    <div
+      className={cx(
+        "dropdown dropdown-hover",
+        position === "bottom" && "dropdown-bottom",
+        position === "bottom-end" && "dropdown-bottom dropdown-end"
+      )}
+    >
+      <div
+        tabIndex={0}
+        role="button"
+        className={cx(children && className, !children && "btn m-1")}
+        aria-label={name}
+      >
+        {children ? children : name}
+      </div>
+      <ul
+        tabIndex={0}
+        className="dropdown-content menu bg-base-100 rounded-sm z-[1] w-52 shadow"
+      >
+        {items.map((item, i) => (
+          <li key={i}>{item}</li>
+        ))}
+      </ul>
+    </div>
   );
+};
+
+// Add PropTypes validation
+Dropdown.propTypes = {
+  position: PropTypes.oneOf(["bottom", "bottom-end"]).isRequired,
+  name: PropTypes.string.isRequired, // Name is required and should be a string
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  className: PropTypes.string,
+  children: PropTypes.oneOf([
+    PropTypes.object,
+    PropTypes.arrayOf(PropTypes.object),
+  ]),
+};
+
+// Set default props if needed
+Dropdown.defaultProps = {
+  position: "bottom", // Default Dropdown type is text
 };
 
 export default Dropdown;
