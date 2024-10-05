@@ -2,7 +2,13 @@ import { React } from "react";
 import PropTypes from "prop-types";
 import { cx } from "classix";
 
-export const Dropdown = ({ position, name, items, className, children }) => {
+export const Dropdown = ({
+  position = "bottom",
+  name,
+  items,
+  className,
+  children,
+}) => {
   return (
     <div
       className={cx(
@@ -42,15 +48,10 @@ Dropdown.propTypes = {
   name: PropTypes.string.isRequired, // Name is required and should be a string
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   className: PropTypes.string,
-  children: PropTypes.oneOf([
+  children: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.arrayOf(PropTypes.object),
   ]),
-};
-
-// Set default props if needed
-Dropdown.defaultProps = {
-  position: "bottom", // Default Dropdown type is text
 };
 
 export default Dropdown;

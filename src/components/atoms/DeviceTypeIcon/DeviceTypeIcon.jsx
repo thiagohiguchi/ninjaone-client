@@ -1,7 +1,7 @@
 import { React } from "react";
 import PropTypes from "prop-types";
 
-export const DeviceTypeIcon = ({ type }) => {
+export const DeviceTypeIcon = ({ type = "windows" }) => {
   return (
     <>
       {type === "WINDOWS" && (
@@ -52,11 +52,7 @@ export const DeviceTypeIcon = ({ type }) => {
 
 // Add PropTypes validation
 DeviceTypeIcon.propTypes = {
-  type: PropTypes.oneOf(["windows", "linux", "max"]).isRequired,
+  type: PropTypes.oneOf(["WINDOWS", "LINUX", "MAC"]).isRequired,
 };
 
-// Set default props if needed
-DeviceTypeIcon.defaultProps = {
-  type: "windows",
-};
 export default DeviceTypeIcon;

@@ -2,12 +2,12 @@ import { React } from "react";
 import PropTypes from "prop-types";
 
 export const Input = ({
-  type,
-  placeholder,
+  type = "text",
+  placeholder = "",
+  className = "",
   value,
   onChange,
   name,
-  className,
 }) => {
   return (
     <label className="input input-bordered flex items-center gap-2 font-normal text-[14px] leading-5">
@@ -48,13 +48,6 @@ Input.propTypes = {
   onChange: PropTypes.func.isRequired, // onChange is required and should be a function
   name: PropTypes.string.isRequired, // Name is required and should be a string
   className: PropTypes.string, // className is optional but should be a string if provided
-};
-
-// Set default props if needed
-Input.defaultProps = {
-  type: "text", // Default input type is text
-  placeholder: "",
-  className: "",
 };
 
 export default Input;

@@ -181,12 +181,7 @@ export const DevicesManager = () => {
         <div className="flex justify-between items-center mb-6">
           <h4 className="text-[20px]">Devices</h4>
           <div className="">
-            <Button
-              type="primary"
-              size="size"
-              label="Add Device"
-              onClick={handleAdd}
-            >
+            <Button type="primary" label="Add Device" onClick={handleAdd}>
               <div className="flex gap-1 items-center">
                 <svg
                   width="16"
@@ -214,6 +209,7 @@ export const DevicesManager = () => {
                 value={searchTerm}
                 onChange={handleSearchChange}
                 className="w-screen max-w-64"
+                name="Search..."
               />
             </div>
             <div className="">
@@ -228,7 +224,6 @@ export const DevicesManager = () => {
                     <input
                       type="checkbox"
                       value={deviceType}
-                      defaultChecked
                       className="checkbox checkbox-sm checkbox-primary"
                       onChange={handleFilterByDeviceType}
                       checked={checkFilterByDeviceType(deviceType)}
