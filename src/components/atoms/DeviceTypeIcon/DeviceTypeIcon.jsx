@@ -32,7 +32,7 @@ export const DeviceTypeIcon = ({ type }) => {
           />
         </svg>
       )}
-      {type === "apple" && (
+      {type === "max" && (
         <svg
           width="16"
           height="16"
@@ -52,7 +52,7 @@ export const DeviceTypeIcon = ({ type }) => {
 
 // Add PropTypes validation
 DeviceTypeIcon.propTypes = {
-  type: PropTypes.oneOf(["windows", "linux", "apple"]).isRequired,
+  type: PropTypes.oneOf(["windows", "linux", "max"]).isRequired,
 };
 
 // Set default props if needed

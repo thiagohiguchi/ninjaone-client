@@ -3,7 +3,7 @@ import DeviceTypeIcon from "./DeviceTypeIcon";
 export default {
   title: "Components/DeviceTypeIcon",
   component: DeviceTypeIcon,
-  args: { type: ["windows", "linux", "apple"] },
+  args: { type: ["windows", "linux", "max"] },
 };
 
 const Template = (args) => <DeviceTypeIcon {...args} />;
