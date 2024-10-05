@@ -74,8 +74,20 @@ export const DevicesManager = () => {
     return deviceTypeFilter.includes(clickedDeviceType);
   };
 
+  const generateFilterByDeviceLabel = () => {
+    let label = "Device Type: ";
+
+    if (checkFilterByDeviceType("ALL")) label += "All";
+    else {
+      for (let i = 0; i < deviceTypeFilter.length; i++) {
+        label += `${deviceTypeFilter[i]}, `;
+      }
+      label = label.slice(0, -2);
+    }
+    return label;
+  };
+
   const handleSortCriteria = (criteria) => {
-    console.log(`sort criteria`, criteria);
     setSortBy(criteria);
   };
 
@@ -227,10 +239,7 @@ export const DevicesManager = () => {
                 className="btn btn-outline"
               >
                 <div className="flex items-center gap-2">
-                  <span className="">
-                    Device Type:{" "}
-                    {checkFilterByDeviceType("ALL") ? "All" : "specific"}
-                  </span>
+                  <span className="">{generateFilterByDeviceLabel()}</span>
                   <svg
                     width="16"
                     height="16"
