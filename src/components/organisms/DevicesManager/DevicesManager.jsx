@@ -17,9 +17,15 @@ export const DevicesManager = () => {
     console.log(`delete`, id);
   };
 
+  const handleSortCriteria = (criteria) => {
+    console.log(`sort criteria`, criteria);
+  };
+
   const handleResetFilters = () => {
     console.log(`reset`);
   };
+
+  const sortCriteria = ["name-asc", "name-desc", "hdd-asc", "hdd-desc"];
 
   return (
     <div className="py-6">
@@ -47,18 +53,46 @@ export const DevicesManager = () => {
           </div>
         </div>
         <div className="flex justify-between items-center mb-4">
-          <div className="flex justify-start gap-2">
+          <div className="flex justify-start items-center gap-2">
             <div className="">
               <Input type="text" placeholder="batata" />
             </div>
             <div className="">{/* <Dropdown /> */}</div>
-            <div className="">dropdown</div>
+            <div className="">
+              <Dropdown
+                position="bottom"
+                name="Sort by"
+                items={sortCriteria.map((sortItem) => (
+                  <button onClick={handleSortCriteria(sortItem)} key={sortItem}>
+                    <span className="">{sortItem}</span>
+                  </button>
+                ))}
+                className="btn btn-outline"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="">Sort by: active</span>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.6875 7.71875L8.71875 11.7188C8.5 11.9062 8.25 12 8 12C7.71875 12 7.46875 11.9062 7.28125 11.7188L3.3125 7.71875C3 7.4375 2.90625 7 3.0625 6.625C3.21875 6.25 3.59375 6 4 6H11.9688C12.375 6 12.7188 6.25 12.875 6.625C13.0312 7 12.9688 7.4375 12.6875 7.71875Z"
+                      fill="#6E6D7A"
+                    />
+                  </svg>
+                </div>
+              </Dropdown>
+            </div>
           </div>
           <Button
             type="icon"
             label="Reset Filters"
             size="small"
             onClick={handleResetFilters}
+            className="btn-square"
           >
             <svg
               width="16"
@@ -107,7 +141,7 @@ export const DevicesManager = () => {
                       Del
                     </button>,
                   ]}
-                  className="btn btn-ghost btn-xs min-h-8"
+                  className="btn btn-ghost btn-square btn-sm"
                 >
                   <svg
                     width="16"

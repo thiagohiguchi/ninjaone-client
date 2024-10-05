@@ -2,14 +2,15 @@ import { React } from "react";
 import PropTypes from "prop-types";
 import { cx } from "classix";
 
-export const Button = ({ type, size, label, onClick, children }) => {
+export const Button = ({ type, size, label, onClick, className, children }) => {
   return (
     <button
       className={cx(
         "hover:cursor-pointer btn",
         type === "primary" && "btn-primary",
         type === "icon" && "btn-ghost",
-        size === "small" && "btn-sm"
+        size === "small" && "btn-sm",
+        className
       )}
       aria-label={label}
       onClick={onClick}

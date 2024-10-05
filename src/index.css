@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.btn {
+  @apply rounded-[4px];
+  @apply normal-case;
+}
+
+.btn-outline {
+  /* @apply border-[#211F33]; */
+  @apply border-[#D1D0D9];
+}

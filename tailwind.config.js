@@ -19,6 +19,7 @@ export default {
         light: {
           ...require("daisyui/src/colors/themes")["[data-theme=light]"],
           primary: '#337AB7',
+          outline: '#fafafa',
         },
       }
     ]
