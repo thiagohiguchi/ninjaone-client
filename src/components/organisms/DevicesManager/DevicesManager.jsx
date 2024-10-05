@@ -1,10 +1,17 @@
-import { React } from "react";
+import React, { useState } from "react";
 import Input from "../../atoms/Input/Input";
 import Dropdown from "../../atoms/Dropdown/Dropdown";
 import Button from "../../atoms/Button/Button";
 import DeviceTypeIcon from "../../atoms/DeviceTypeIcon/DeviceTypeIcon";
 
 export const DevicesManager = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearchChange = (event) => {
+    console.log(`search`, event.target.value);
+    setSearchTerm(event.target.value);
+  };
+
   const handleAdd = () => {
     console.log(`add`);
   };
@@ -26,6 +33,7 @@ export const DevicesManager = () => {
   };
 
   const sortCriteria = ["name-asc", "name-desc", "hdd-asc", "hdd-desc"];
+  const filterDeviceCriteria = ["all", "windows", "linux", "mac"];
 
   return (
     <div className="py-6">
@@ -33,7 +41,12 @@ export const DevicesManager = () => {
         <div className="flex justify-between items-center mb-6">
           <h4 className="text-[20px]">Devices</h4>
           <div className="">
-            <Button type="primary" label="Add Device" onClick={handleAdd}>
+            <Button
+              type="primary"
+              size="size"
+              label="Add Device"
+              onClick={handleAdd}
+            >
               <div className="flex gap-1 items-center">
                 <svg
                   width="16"
@@ -55,9 +68,53 @@ export const DevicesManager = () => {
         <div className="flex justify-between items-center mb-4">
           <div className="flex justify-start items-center gap-2">
             <div className="">
-              <Input type="text" placeholder="batata" />
+              <Input
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="w-screen max-w-64"
+              />
             </div>
-            <div className="">{/* <Dropdown /> */}</div>
+            <div className="">
+              <Dropdown
+                position="bottom"
+                name="Sort by"
+                items={filterDeviceCriteria.map((device) => (
+                  // <button onClick={handleSortCriteria(sortItem)} key={sortItem}>
+                  //   <span className="">{sortItem}</span>
+                  // </button>
+                  <label
+                    className="label justify-start cursor-pointer"
+                    key={device}
+                  >
+                    <input
+                      type="checkbox"
+                      defaultChecked
+                      className="checkbox checkbox-sm checkbox-primary"
+                    />
+                    <span className="label-text">{device}</span>
+                  </label>
+                ))}
+                className="btn btn-outline"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="">Device Type: All</span>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.6875 7.71875L8.71875 11.7188C8.5 11.9062 8.25 12 8 12C7.71875 12 7.46875 11.9062 7.28125 11.7188L3.3125 7.71875C3 7.4375 2.90625 7 3.0625 6.625C3.21875 6.25 3.59375 6 4 6H11.9688C12.375 6 12.7188 6.25 12.875 6.625C13.0312 7 12.9688 7.4375 12.6875 7.71875Z"
+                      fill="#6E6D7A"
+                    />
+                  </svg>
+                </div>
+              </Dropdown>
+            </div>
             <div className="">
               <Dropdown
                 position="bottom"
@@ -92,7 +149,7 @@ export const DevicesManager = () => {
             label="Reset Filters"
             size="small"
             onClick={handleResetFilters}
-            className="btn-square"
+            className="btn-square p-0"
           >
             <svg
               width="16"
@@ -141,7 +198,7 @@ export const DevicesManager = () => {
                       Del
                     </button>,
                   ]}
-                  className="btn btn-ghost btn-square btn-sm"
+                  className="btn btn-ghost btn-sm"
                 >
                   <svg
                     width="16"

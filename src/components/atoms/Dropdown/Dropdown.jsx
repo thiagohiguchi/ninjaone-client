@@ -8,7 +8,7 @@ export const Dropdown = ({ position, name, items, className, children }) => {
   return (
     <div
       className={cx(
-        "dropdown dropdown-hover",
+        "dropdown",
         "font-normal text-[14px] leading-4",
         position === "bottom" && "dropdown-bottom",
         position === "bottom-end" && "dropdown-bottom dropdown-end"

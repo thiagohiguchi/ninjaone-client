@@ -3,11 +3,18 @@
 @tailwind utilities;
 
 .btn {
-  @apply rounded-[4px];
+  @apply rounded-[4px] pl-3 h-[38px];
   @apply normal-case;
 }
 
 .btn-outline {
-  /* @apply border-[#211F33]; */
   @apply border-[#D1D0D9];
+}
+
+.checkbox {
+  @apply rounded-[4px];
+}
+
+.input {
+  @apply rounded-[4px] pl-3 h-[38px];
 }

@@ -10,7 +10,7 @@ export const Input = ({
   className,
 }) => {
   return (
-    <label className="input input-bordered flex items-center gap-2">
+    <label className="input input-bordered flex items-center gap-2 font-normal text-[14px] leading-5">
       <svg
         width="17"
         height="16"
