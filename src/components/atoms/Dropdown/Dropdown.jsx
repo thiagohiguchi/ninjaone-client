@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import { cx } from "classix";
 
 export const Dropdown = ({ position, name, items, className, children }) => {
-  console.log(items);
-
   return (
     <div
       className={cx(

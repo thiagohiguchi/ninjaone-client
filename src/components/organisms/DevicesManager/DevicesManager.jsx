@@ -26,22 +26,52 @@ export const DevicesManager = () => {
   );
   const [sortBy, setSortBy] = useState(sortByCriteria[0]);
 
-  const handleSearchChange = (event) => {
-    console.log(`search`, event.target.value);
-    setSearchTerm(event.target.value);
-    filterAndSortDevices();
-  };
-
   const handleAdd = () => {
     console.log(`add`);
   };
 
   const handleEdit = (id) => {
-    console.log(`edit`, id);
+    // console.log(`edit`, id);
   };
 
   const handleDelete = (id) => {
-    console.log(`delete`, id);
+    // console.log(`delete`, id);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleFilterByDeviceType = (event) => {
+    const clickedDeviceType = event.target.value;
+    const isChecked = event.target.checked;
+
+    // Add or remove device type criteria based on whether the checkbox is checked or unchecked
+    if (clickedDeviceType !== "ALL") {
+      if (isChecked) {
+        setDeviceTypeFilter((deviceTypeFilter) => [
+          ...deviceTypeFilter,
+          clickedDeviceType,
+        ]);
+      } else {
+        setDeviceTypeFilter((deviceTypeFilter) =>
+          deviceTypeFilter.filter((h) => h !== clickedDeviceType)
+        );
+      }
+    }
+
+    if (clickedDeviceType === "ALL") {
+      if (isChecked) setDeviceTypeFilter(filterDeviceCriteria.slice(1));
+      else setDeviceTypeFilter([]);
+    }
+  };
+
+  const checkFilterByDeviceType = (clickedDeviceType) => {
+    // If every item is in the list, then return true regardless
+    if (deviceTypeFilter.length === filterDeviceCriteria.length - 1)
+      return true;
+
+    return deviceTypeFilter.includes(clickedDeviceType);
   };
 
   const handleSortCriteria = (criteria) => {
@@ -49,30 +79,13 @@ export const DevicesManager = () => {
     setSortBy(criteria);
   };
 
-  const handleFilterCriteria = (event) => {
-    // console.log(`filter criteria`, criteria);
-    // setSortBy(criteria);
-
-    // setDeviceTypeFilter
-
-    const criteria = event.target.value;
-    const isChecked = event.target.checked;
-
-    // Add or remove criteria based on whether the checkbox is checked or unchecked
-    if (isChecked) {
-      setDeviceTypeFilter((deviceTypeFilter) => [
-        ...deviceTypeFilter,
-        criteria,
-      ]);
-    } else {
-      setDeviceTypeFilter((deviceTypeFilter) =>
-        deviceTypeFilter.filter((h) => h !== criteria)
-      );
-    }
-  };
-
   const handleResetFilters = () => {
-    console.log(`reset`);
+    setLoading(true);
+    setSearchTerm("");
+    setDeviceTypeFilter(filterDeviceCriteria.slice(1));
+    setSortBy(sortByCriteria[0]);
+
+    fetchDevicesData();
   };
 
   const filterAndSortDevices = () => {
@@ -91,7 +104,7 @@ export const DevicesManager = () => {
       filtered = filtered.filter((device) =>
         deviceTypeFilter.includes(device.type)
       );
-    }
+    } else filtered = [];
 
     // Sort
     if (sortBy !== sortByCriteria[0]) {
@@ -126,35 +139,29 @@ export const DevicesManager = () => {
     setFilteredDevices(filtered); // Update state with filtered users
   };
 
-  // filterAndSortDevices();
+  const fetchDevicesData = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/devices");
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const jsonData = await response.json();
+      setData(jsonData); // Set the fetched data to state
+    } catch (err) {
+      setError(err.message); // Set error message if fetch fails
+    } finally {
+      setLoading(false); // Set loading to false after the fetch is done
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/devices");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const jsonData = await response.json();
-        setData(jsonData); // Set the fetched data to state
-      } catch (err) {
-        setError(err.message); // Set error message if fetch fails
-      } finally {
-        setLoading(false); // Set loading to false after the fetch is done
-      }
-    };
-
-    fetchData(); // Call the fetch function
+    fetchDevicesData(); // Call the fetch function
   }, []); // Empty dependency array means this effect runs once after the initial render
 
-  // Trigger filtering after data is updated
+  // Trigger filtering after data/filters/sorting is updated
   useEffect(() => {
     filterAndSortDevices(); // Call the filter function after data is fetched
-  }, [data]); // Run this effect when data changes
-
-  useEffect(() => {
-    filterAndSortDevices(); // Call the filter function after data is fetched
-  }, [sortBy, deviceTypeFilter]); // Run this effect when data changes
+  }, [data, searchTerm, deviceTypeFilter, sortBy]);
 
   return (
     <div className="pt-6 pb-12">
@@ -211,8 +218,8 @@ export const DevicesManager = () => {
                       value={deviceType}
                       defaultChecked
                       className="checkbox checkbox-sm checkbox-primary"
-                      onChange={handleFilterCriteria}
-                      checked={deviceTypeFilter.includes(deviceType)}
+                      onChange={handleFilterByDeviceType}
+                      checked={checkFilterByDeviceType(deviceType)}
                     />
                     <span className="label-text">{deviceType}</span>
                   </label>
@@ -220,7 +227,10 @@ export const DevicesManager = () => {
                 className="btn btn-outline"
               >
                 <div className="flex items-center gap-2">
-                  <span className="">Device Type: All</span>
+                  <span className="">
+                    Device Type:{" "}
+                    {checkFilterByDeviceType("ALL") ? "All" : "specific"}
+                  </span>
                   <svg
                     width="16"
                     height="16"
@@ -322,7 +332,7 @@ export const DevicesManager = () => {
                         <button
                           onClick={handleDelete}
                           className="text-error"
-                          key={`delete-${1}`}
+                          key={`delete-${device.id}`}
                         >
                           Del
                         </button>,
