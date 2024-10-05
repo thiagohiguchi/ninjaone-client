@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 export const DeviceTypeIcon = ({ type }) => {
   return (
     <>
-      {type === "windows" && (
+      {type === "WINDOWS" && (
         <svg
           width="16"
           height="16"
@@ -18,7 +18,7 @@ export const DeviceTypeIcon = ({ type }) => {
           />
         </svg>
       )}
-      {type === "linux" && (
+      {type === "LINUX" && (
         <svg
           width="16"
           height="17"
@@ -32,7 +32,7 @@ export const DeviceTypeIcon = ({ type }) => {
           />
         </svg>
       )}
-      {type === "max" && (
+      {type === "MAC" && (
         <svg
           width="16"
           height="16"

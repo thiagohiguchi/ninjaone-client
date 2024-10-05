@@ -1,15 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../../atoms/Input/Input";
 import Dropdown from "../../atoms/Dropdown/Dropdown";
 import Button from "../../atoms/Button/Button";
+import Loading from "../../atoms/Loading/Loading";
 import DeviceTypeIcon from "../../atoms/DeviceTypeIcon/DeviceTypeIcon";
 
 export const DevicesManager = () => {
+  const sortByCriteria = [
+    "DEFAULT",
+    "NAME-ASC",
+    "NAME-DESC",
+    "HDD-ASC",
+    "HDD-DESC",
+  ];
+  const filterDeviceCriteria = ["ALL", "WINDOWS", "LINUX", "MAC"];
+
+  const [data, setData] = useState([]); // State to hold the fetched data
+  const [filteredDevices, setFilteredDevices] = useState(data); // Initialize with all users
+  const [loading, setLoading] = useState(true); // State to manage loading state
+  const [error, setError] = useState(null); // State to manage error
+
   const [searchTerm, setSearchTerm] = useState("");
+  const [deviceTypeFilter, setDeviceTypeFilter] = useState(
+    filterDeviceCriteria.slice(1)
+  );
+  const [sortBy, setSortBy] = useState(sortByCriteria[0]);
 
   const handleSearchChange = (event) => {
     console.log(`search`, event.target.value);
     setSearchTerm(event.target.value);
+    filterAndSortDevices();
   };
 
   const handleAdd = () => {
@@ -26,17 +46,118 @@ export const DevicesManager = () => {
 
   const handleSortCriteria = (criteria) => {
     console.log(`sort criteria`, criteria);
+    setSortBy(criteria);
+  };
+
+  const handleFilterCriteria = (event) => {
+    // console.log(`filter criteria`, criteria);
+    // setSortBy(criteria);
+
+    // setDeviceTypeFilter
+
+    const criteria = event.target.value;
+    const isChecked = event.target.checked;
+
+    // Add or remove criteria based on whether the checkbox is checked or unchecked
+    if (isChecked) {
+      setDeviceTypeFilter((deviceTypeFilter) => [
+        ...deviceTypeFilter,
+        criteria,
+      ]);
+    } else {
+      setDeviceTypeFilter((deviceTypeFilter) =>
+        deviceTypeFilter.filter((h) => h !== criteria)
+      );
+    }
   };
 
   const handleResetFilters = () => {
     console.log(`reset`);
   };
 
-  const sortCriteria = ["name-asc", "name-desc", "hdd-asc", "hdd-desc"];
-  const filterDeviceCriteria = ["all", "windows", "linux", "mac"];
+  const filterAndSortDevices = () => {
+    console.log(`filterAndSortDevices`);
+    let filtered = data;
+
+    // Filter devices based on the search term
+    if (searchTerm) {
+      filtered = filtered.filter((device) =>
+        device.system_name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Filter devices based on the device type
+    if (deviceTypeFilter.length) {
+      filtered = filtered.filter((device) =>
+        deviceTypeFilter.includes(device.type)
+      );
+    }
+
+    // Sort
+    if (sortBy !== sortByCriteria[0]) {
+      switch (sortBy) {
+        case "NAME-ASC":
+          filtered = filtered.sort((a, b) => {
+            if (a.system_name < b.system_name) return -1; // a comes before b
+            if (a.system_name > b.system_name) return 1; // a comes after b
+            return 0;
+          });
+          break;
+        case "NAME-DESC":
+          filtered = filtered.sort((a, b) => {
+            if (a.system_name > b.system_name) return -1; // a comes before b
+            if (a.system_name < b.system_name) return 1; // a comes after b
+            return 0;
+          });
+          break;
+        case "HDD-ASC":
+          filtered = filtered.sort(
+            (a, b) => parseInt(a.hdd_capacity) - parseInt(b.hdd_capacity)
+          );
+          break;
+        case "HDD-DESC":
+          filtered = filtered.sort(
+            (a, b) => parseInt(b.hdd_capacity) - parseInt(a.hdd_capacity)
+          );
+          break;
+      }
+    }
+
+    setFilteredDevices(filtered); // Update state with filtered users
+  };
+
+  // filterAndSortDevices();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/devices");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const jsonData = await response.json();
+        setData(jsonData); // Set the fetched data to state
+      } catch (err) {
+        setError(err.message); // Set error message if fetch fails
+      } finally {
+        setLoading(false); // Set loading to false after the fetch is done
+      }
+    };
+
+    fetchData(); // Call the fetch function
+  }, []); // Empty dependency array means this effect runs once after the initial render
+
+  // Trigger filtering after data is updated
+  useEffect(() => {
+    filterAndSortDevices(); // Call the filter function after data is fetched
+  }, [data]); // Run this effect when data changes
+
+  useEffect(() => {
+    filterAndSortDevices(); // Call the filter function after data is fetched
+  }, [sortBy, deviceTypeFilter]); // Run this effect when data changes
 
   return (
-    <div className="py-6">
+    <div className="pt-6 pb-12">
       <div className="max-width w-11/12 mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h4 className="text-[20px]">Devices</h4>
@@ -79,21 +200,21 @@ export const DevicesManager = () => {
             <div className="">
               <Dropdown
                 position="bottom"
-                name="Sort by"
-                items={filterDeviceCriteria.map((device) => (
-                  // <button onClick={handleSortCriteria(sortItem)} key={sortItem}>
-                  //   <span className="">{sortItem}</span>
-                  // </button>
+                name="Filter by device type"
+                items={filterDeviceCriteria.map((deviceType) => (
                   <label
                     className="label justify-start cursor-pointer"
-                    key={device}
+                    key={deviceType}
                   >
                     <input
                       type="checkbox"
+                      value={deviceType}
                       defaultChecked
                       className="checkbox checkbox-sm checkbox-primary"
+                      onChange={handleFilterCriteria}
+                      checked={deviceTypeFilter.includes(deviceType)}
                     />
-                    <span className="label-text">{device}</span>
+                    <span className="label-text">{deviceType}</span>
                   </label>
                 ))}
                 className="btn btn-outline"
@@ -119,15 +240,18 @@ export const DevicesManager = () => {
               <Dropdown
                 position="bottom"
                 name="Sort by"
-                items={sortCriteria.map((sortItem) => (
-                  <button onClick={handleSortCriteria(sortItem)} key={sortItem}>
+                items={sortByCriteria.map((sortItem) => (
+                  <button
+                    onClick={() => handleSortCriteria(sortItem)}
+                    key={sortItem}
+                  >
                     <span className="">{sortItem}</span>
                   </button>
                 ))}
                 className="btn btn-outline"
               >
                 <div className="flex items-center gap-2">
-                  <span className="">Sort by: active</span>
+                  <span className="">Sort by: {sortBy}</span>
                   <svg
                     width="16"
                     height="16"
@@ -169,53 +293,62 @@ export const DevicesManager = () => {
           <div className="px-3 border-b border-b-[#CBCFD3]">
             <h5 className="py-2 font-medium text-[15px]">Device</h5>
           </div>
-          <div className="px-3 py-[9px] border-b border-b-[#E7E8EB] hover:bg-[#F4F4F5] focus:bg-[#F4F4F5]">
-            <div className="flex flex-row justify-between items-center transition-all">
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-1">
-                  <DeviceTypeIcon type="windows" />
-                  <span className="font-medium text-[15px] leading-4 uppercase">
-                    device name
-                  </span>
-                </div>
-                <span className="text-xs leading-[14px] text-[#6E6D7A]">
-                  Windows - 120 GB
-                </span>
-              </div>
-              <div className="">
-                <Dropdown
-                  position="bottom-end"
-                  name="Edit or Delete"
-                  items={[
-                    <button onClick={handleEdit} key={`edit-${1}`}>
-                      Edit
-                    </button>,
-                    <button
-                      onClick={handleDelete}
-                      className="text-error"
-                      key={`delete-${1}`}
+          {!loading ? (
+            filteredDevices.map((device) => (
+              <div
+                className="px-3 py-[9px] border-b border-b-[#E7E8EB] hover:bg-[#F4F4F5] focus:bg-[#F4F4F5]"
+                key={device.id}
+              >
+                <div className="flex flex-row justify-between items-center transition-all">
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-center gap-1">
+                      <DeviceTypeIcon type={device.type} />
+                      <span className="font-medium text-[15px] leading-4 uppercase">
+                        {device.system_name}
+                      </span>
+                    </div>
+                    <span className="text-xs leading-[14px] text-[#6E6D7A]">
+                      {device.type} - {device.hdd_capacity} GB
+                    </span>
+                  </div>
+                  <div className="">
+                    <Dropdown
+                      position="bottom-end"
+                      name="Edit or Delete"
+                      items={[
+                        <button onClick={handleEdit} key={`edit-${device.id}`}>
+                          Edit
+                        </button>,
+                        <button
+                          onClick={handleDelete}
+                          className="text-error"
+                          key={`delete-${1}`}
+                        >
+                          Del
+                        </button>,
+                      ]}
+                      className="btn btn-ghost btn-sm"
                     >
-                      Del
-                    </button>,
-                  ]}
-                  className="btn btn-ghost btn-sm"
-                >
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M11.5 8C11.5 7.1875 12.1562 6.5 13 6.5C13.8125 6.5 14.5 7.1875 14.5 8C14.5 8.84375 13.8125 9.5 13 9.5C12.1562 9.5 11.5 8.84375 11.5 8ZM6.5 8C6.5 7.1875 7.15625 6.5 8 6.5C8.8125 6.5 9.5 7.1875 9.5 8C9.5 8.84375 8.8125 9.5 8 9.5C7.15625 9.5 6.5 8.84375 6.5 8ZM4.5 8C4.5 8.84375 3.8125 9.5 3 9.5C2.15625 9.5 1.5 8.84375 1.5 8C1.5 7.1875 2.15625 6.5 3 6.5C3.8125 6.5 4.5 7.1875 4.5 8Z"
-                      fill="#595766"
-                    />
-                  </svg>
-                </Dropdown>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M11.5 8C11.5 7.1875 12.1562 6.5 13 6.5C13.8125 6.5 14.5 7.1875 14.5 8C14.5 8.84375 13.8125 9.5 13 9.5C12.1562 9.5 11.5 8.84375 11.5 8ZM6.5 8C6.5 7.1875 7.15625 6.5 8 6.5C8.8125 6.5 9.5 7.1875 9.5 8C9.5 8.84375 8.8125 9.5 8 9.5C7.15625 9.5 6.5 8.84375 6.5 8ZM4.5 8C4.5 8.84375 3.8125 9.5 3 9.5C2.15625 9.5 1.5 8.84375 1.5 8C1.5 7.1875 2.15625 6.5 3 6.5C3.8125 6.5 4.5 7.1875 4.5 8Z"
+                          fill="#595766"
+                        />
+                      </svg>
+                    </Dropdown>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            ))
+          ) : (
+            <Loading isLoading={loading} className="my-9" />
+          )}
         </div>
       </div>
     </div>
