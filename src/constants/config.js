@@ -7,3 +7,5 @@ export const SORT_BY_CRITERIA = [
   ];
 
   export const FILTER_DEVICE_CRITERIA = ["ALL", "WINDOWS", "LINUX", "MAC"];
+  
+  export const LANGUAGES = ["en", "pt-BR"];

@@ -1,0 +1,7 @@
+{
+    "changeLanguage": "Mudar Idioma",
+    "en": "Inglês",
+    "pt-BR": "Português (Brasil)",
+    "welcome": "bem bindo",
+    "description": "This is an example of internationalization in React."
+}

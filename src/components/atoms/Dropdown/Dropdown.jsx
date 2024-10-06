@@ -14,6 +14,7 @@ export const Dropdown = ({
       className={cx(
         "dropdown",
         "font-normal text-[14px] leading-4",
+        position === "top-end" && "dropdown-top dropdown-end",
         position === "bottom" && "dropdown-bottom",
         position === "bottom-end" && "dropdown-bottom dropdown-end"
       )}
@@ -44,7 +45,7 @@ export const Dropdown = ({
 
 // Add PropTypes validation
 Dropdown.propTypes = {
-  position: PropTypes.oneOf(["bottom", "bottom-end"]).isRequired,
+  position: PropTypes.oneOf(["top-end", "bottom", "bottom-end"]).isRequired,
   name: PropTypes.string.isRequired, // Name is required and should be a string
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   className: PropTypes.string,
