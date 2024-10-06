@@ -22,7 +22,7 @@ export const Footer = () => {
               <span className="">{t(item)}</span>
             </button>
           ))}
-          className="btn btn-outline text-white border-white min-w-48 "
+          className="btn btn-outline btn-small text-white border-white min-w-48 "
         >
           <div className="flex items-center justify-end gap-2 w-full">
             <span className="">{t(activeLanguage)}</span>

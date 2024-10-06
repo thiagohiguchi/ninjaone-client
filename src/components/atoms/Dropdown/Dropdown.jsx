@@ -13,7 +13,7 @@ export const Dropdown = ({
     <div
       className={cx(
         "dropdown",
-        "font-normal text-[14px] leading-4",
+        "font-normal text-sm leading-sm",
         position === "top-end" && "dropdown-top dropdown-end",
         position === "bottom" && "dropdown-bottom",
         position === "bottom-end" && "dropdown-bottom dropdown-end"
@@ -23,7 +23,7 @@ export const Dropdown = ({
         tabIndex={0}
         role="button"
         className={cx(
-          "font-normal text-[14px] leading-4",
+          "font-normal text-sm leading-sm",
           children && className,
           !children && "btn m-1"
         )}
@@ -33,7 +33,7 @@ export const Dropdown = ({
       </div>
       <ul
         tabIndex={0}
-        className="dropdown-content menu bg-base-100 rounded-[4px] z-[1] w-52 shadow"
+        className="dropdown-content menu bg-base-100 z-[1] w-52 shadow"
       >
         {items.map((item, i) => (
           <li key={i}>{item}</li>

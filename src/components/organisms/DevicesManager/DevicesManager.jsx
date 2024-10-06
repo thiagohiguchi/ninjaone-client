@@ -6,6 +6,7 @@ import {
   REQUEST_DELAY,
 } from "../../../constants/config";
 import { delay } from "../../../utils";
+import { cx } from "classix";
 import Input from "../../atoms/Input/Input";
 import Dropdown from "../../atoms/Dropdown/Dropdown";
 import Button from "../../atoms/Button/Button";
@@ -19,6 +20,7 @@ export const DevicesManager = () => {
   const [data, setData] = useState([]); // State to hold the fetched data
   const [filteredDevices, setFilteredDevices] = useState(data); // Initialize with all users
   const [activeDevice, setActiveDevice] = useState(null); // State to hold the fetched data
+  const [showFiltersMobile, setShowFiltersMobile] = useState(false);
   const [loading, setLoading] = useState(true); // State to manage loading state
   const [error, setError] = useState(null); // State to manage error
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -68,6 +70,11 @@ export const DevicesManager = () => {
       if (isChecked) setDeviceTypeFilter(FILTER_DEVICE_CRITERIA.slice(1));
       else setDeviceTypeFilter([]);
     }
+  };
+
+  const handleShowHideFilters = () => {
+    console.log("handleShowHideFilters", showFiltersMobile);
+    setShowFiltersMobile(!showFiltersMobile);
   };
 
   const onSuccessAddedDevice = (newDevice) => {
@@ -234,6 +241,7 @@ export const DevicesManager = () => {
           <div className="">
             <Button
               type="primary"
+              size="small"
               label={t("addDevice")}
               onClick={() => document.getElementById("ab1coL2n9").showModal()}
             >
@@ -250,118 +258,153 @@ export const DevicesManager = () => {
                     fill="#ffffff"
                   />
                 </svg>
-                <span>{t("addDevice")}</span>
+                <span className="text-white">{t("addDevice")}</span>
               </div>
             </Button>
             {/* <AddDeviceModal id="addDevice"></AddDeviceModal> */}
           </div>
         </div>
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex justify-start items-center gap-2">
-            <div className="">
-              <Input
-                type="text"
-                placeholder={t("search")}
-                value={searchTerm}
-                onChange={handleSearchChange}
-                className="w-screen max-w-64"
-                name={t("search")}
-              />
-            </div>
-            <div className="">
-              <Dropdown
-                position="bottom"
-                name={t("filterByDeviceType")}
-                items={FILTER_DEVICE_CRITERIA.map((deviceType) => (
-                  <label
-                    className="label justify-start cursor-pointer"
-                    key={deviceType}
-                  >
-                    <input
-                      type="checkbox"
-                      value={deviceType}
-                      className="checkbox checkbox-sm checkbox-primary"
-                      onChange={handleFilterByDeviceType}
-                      checked={checkFilterByDeviceType(deviceType)}
-                    />
-                    <span className="label-text">{t(deviceType)}</span>
-                  </label>
-                ))}
-                className="btn btn-outline"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="">{generateFilterByDeviceLabel()}</span>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M12.6875 7.71875L8.71875 11.7188C8.5 11.9062 8.25 12 8 12C7.71875 12 7.46875 11.9062 7.28125 11.7188L3.3125 7.71875C3 7.4375 2.90625 7 3.0625 6.625C3.21875 6.25 3.59375 6 4 6H11.9688C12.375 6 12.7188 6.25 12.875 6.625C13.0312 7 12.9688 7.4375 12.6875 7.71875Z"
-                      fill="#6E6D7A"
-                    />
-                  </svg>
-                </div>
-              </Dropdown>
-            </div>
-            <div className="">
-              <Dropdown
-                position="bottom"
-                name={t("sortBy")}
-                items={SORT_BY_CRITERIA.map((sortItem) => (
-                  <button
-                    onClick={() => handleSortCriteria(sortItem)}
-                    key={sortItem}
-                  >
-                    <span className="">{t(sortItem)}</span>
-                  </button>
-                ))}
-                className="btn btn-outline"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="">{`${t("sortBy")}: ${t(sortBy)}`}</span>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M12.6875 7.71875L8.71875 11.7188C8.5 11.9062 8.25 12 8 12C7.71875 12 7.46875 11.9062 7.28125 11.7188L3.3125 7.71875C3 7.4375 2.90625 7 3.0625 6.625C3.21875 6.25 3.59375 6 4 6H11.9688C12.375 6 12.7188 6.25 12.875 6.625C13.0312 7 12.9688 7.4375 12.6875 7.71875Z"
-                      fill="#6E6D7A"
-                    />
-                  </svg>
-                </div>
-              </Dropdown>
+        <div className="flex flex-col-reverse justify-between items-start lg:flex-row lg:items-center mb-4">
+          <div className="flex justify-center w-full lg:max-w-fit">
+            <div
+              className={cx(
+                "lg:flex flex-col lg:flex-row justify-start items-center gap-2 py-4 lg:py-0 max-h-0 lg:max-h-full hidden",
+                showFiltersMobile && "max-h-full !flex"
+              )}
+            >
+              <div className="">
+                <Input
+                  type="text"
+                  placeholder={t("search")}
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  className="w-screen max-w-64"
+                  name={t("search")}
+                />
+              </div>
+              <div className="">
+                <Dropdown
+                  position="bottom"
+                  name={t("filterByDeviceType")}
+                  items={FILTER_DEVICE_CRITERIA.map((deviceType) => (
+                    <label
+                      className="label justify-start cursor-pointer"
+                      key={deviceType}
+                    >
+                      <input
+                        type="checkbox"
+                        value={deviceType}
+                        className="checkbox checkbox-sm checkbox-primary"
+                        onChange={handleFilterByDeviceType}
+                        checked={checkFilterByDeviceType(deviceType)}
+                      />
+                      <span className="label-text">{t(deviceType)}</span>
+                    </label>
+                  ))}
+                  className="btn btn-outline"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="">{generateFilterByDeviceLabel()}</span>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12.6875 7.71875L8.71875 11.7188C8.5 11.9062 8.25 12 8 12C7.71875 12 7.46875 11.9062 7.28125 11.7188L3.3125 7.71875C3 7.4375 2.90625 7 3.0625 6.625C3.21875 6.25 3.59375 6 4 6H11.9688C12.375 6 12.7188 6.25 12.875 6.625C13.0312 7 12.9688 7.4375 12.6875 7.71875Z"
+                        fill="#6E6D7A"
+                      />
+                    </svg>
+                  </div>
+                </Dropdown>
+              </div>
+              <div className="">
+                <Dropdown
+                  position="bottom"
+                  name={t("sortBy")}
+                  items={SORT_BY_CRITERIA.map((sortItem) => (
+                    <button
+                      onClick={() => handleSortCriteria(sortItem)}
+                      key={sortItem}
+                    >
+                      <span className="">{t(sortItem)}</span>
+                    </button>
+                  ))}
+                  className="btn btn-outline"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="">{`${t("sortBy")}: ${t(sortBy)}`}</span>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12.6875 7.71875L8.71875 11.7188C8.5 11.9062 8.25 12 8 12C7.71875 12 7.46875 11.9062 7.28125 11.7188L3.3125 7.71875C3 7.4375 2.90625 7 3.0625 6.625C3.21875 6.25 3.59375 6 4 6H11.9688C12.375 6 12.7188 6.25 12.875 6.625C13.0312 7 12.9688 7.4375 12.6875 7.71875Z"
+                        fill="#6E6D7A"
+                      />
+                    </svg>
+                  </div>
+                </Dropdown>
+              </div>
             </div>
           </div>
-          <div
-            className="tooltip tooltip-left"
-            data-tip={t("resetAndUpdateDevices")}
-          >
-            <Button
-              type="icon"
-              label={t("resetFilters")}
-              size="small"
-              onClick={handleResetFilters}
-              className="btn-square p-0"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+
+          <div className="flex gap-3 ml-auto">
+            <div className="lg:hidden">
+              <Button
+                type="icon"
+                label={t("showAndHideFilters")}
+                size="small"
+                onClick={handleShowHideFilters}
+                className="btn-square p-0"
               >
-                <path
-                  d="M14.5 1C14.2188 1 14 1.25 14 1.5V5.5625C13 3.125 10.625 1.5 8 1.5C4.8125 1.5 2.09375 3.78125 1.5625 6.9375C1.53125 7.21875 1.71875 7.46875 2 7.5C2 7.5 2.03125 7.5 2.0625 7.5C2.3125 7.5 2.53125 7.34375 2.5625 7.09375C3 4.4375 5.28125 2.5 8 2.5C10.25 2.5 12.2812 3.90625 13.0938 6H9.5C9.21875 6 9 6.25 9 6.5C9 6.78125 9.21875 7 9.5 7H14.5C14.75 7 15 6.78125 15 6.5V1.5C15 1.25 14.75 1 14.5 1ZM13.9688 8.53125C13.6875 8.46875 13.4375 8.65625 13.375 8.9375C12.9688 11.5938 10.6875 13.5 7.96875 13.5C5.6875 13.5 3.65625 12.125 2.84375 10H6.5C6.75 10 7 9.78125 7 9.5C7 9.25 6.75 9 6.5 9H1.5C1.21875 9 1 9.25 1 9.5V14.5C1 14.7812 1.21875 15 1.5 15C1.75 15 2 14.7812 2 14.5V10.4688C2.96875 12.9062 5.34375 14.5 8 14.5C11.1562 14.5 13.875 12.25 14.4062 9.09375C14.4375 8.8125 14.25 8.5625 13.9688 8.53125Z"
+                <svg
                   fill="#595766"
-                />
-              </svg>
-            </Button>
+                  height="16"
+                  width="16"
+                  version="1.1"
+                  viewBox="0 0 300.906 300.906"
+                >
+                  <path
+                    d="M288.953,0h-277c-5.522,0-10,4.478-10,10v49.531c0,5.522,4.478,10,10,10h12.372l91.378,107.397v113.978
+			c0,3.688,2.03,7.076,5.281,8.816c1.479,0.792,3.101,1.184,4.718,1.184c1.94,0,3.875-0.564,5.548-1.68l49.5-33
+			c2.782-1.854,4.453-4.977,4.453-8.32v-80.978l91.378-107.397h12.372c5.522,0,10-4.478,10-10V10C298.953,4.478,294.476,0,288.953,0
+			z M167.587,166.77c-1.539,1.809-2.384,4.105-2.384,6.48v79.305l-29.5,19.666V173.25c0-2.375-0.845-4.672-2.384-6.48L50.585,69.531
+			h199.736L167.587,166.77z M278.953,49.531h-257V20h257V49.531z"
+                  />
+                </svg>
+              </Button>
+            </div>
+            <div
+              className="tooltip tooltip-left"
+              data-tip={t("resetAndUpdateDevices")}
+            >
+              <Button
+                type="icon"
+                label={t("resetFilters")}
+                size="small"
+                onClick={handleResetFilters}
+                className="btn-square p-0"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M14.5 1C14.2188 1 14 1.25 14 1.5V5.5625C13 3.125 10.625 1.5 8 1.5C4.8125 1.5 2.09375 3.78125 1.5625 6.9375C1.53125 7.21875 1.71875 7.46875 2 7.5C2 7.5 2.03125 7.5 2.0625 7.5C2.3125 7.5 2.53125 7.34375 2.5625 7.09375C3 4.4375 5.28125 2.5 8 2.5C10.25 2.5 12.2812 3.90625 13.0938 6H9.5C9.21875 6 9 6.25 9 6.5C9 6.78125 9.21875 7 9.5 7H14.5C14.75 7 15 6.78125 15 6.5V1.5C15 1.25 14.75 1 14.5 1ZM13.9688 8.53125C13.6875 8.46875 13.4375 8.65625 13.375 8.9375C12.9688 11.5938 10.6875 13.5 7.96875 13.5C5.6875 13.5 3.65625 12.125 2.84375 10H6.5C6.75 10 7 9.78125 7 9.5C7 9.25 6.75 9 6.5 9H1.5C1.21875 9 1 9.25 1 9.5V14.5C1 14.7812 1.21875 15 1.5 15C1.75 15 2 14.7812 2 14.5V10.4688C2.96875 12.9062 5.34375 14.5 8 14.5C11.1562 14.5 13.875 12.25 14.4062 9.09375C14.4375 8.8125 14.25 8.5625 13.9688 8.53125Z"
+                    fill="#595766"
+                  />
+                </svg>
+              </Button>
+            </div>
           </div>
         </div>
         <div className="flex flex-col">
@@ -409,7 +452,7 @@ export const DevicesManager = () => {
                           {t("delete")}
                         </button>,
                       ]}
-                      className="btn btn-ghost btn-sm"
+                      className="btn btn-ghost btn-sm px-2"
                     >
                       <svg
                         width="16"

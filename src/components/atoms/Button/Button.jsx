@@ -13,7 +13,7 @@ export const Button = ({
   return (
     <button
       className={cx(
-        "hover:cursor-pointer btn",
+        "hover:cursor-pointer btn text-sm font-normal",
         type === "primary" && "btn-primary",
         type === "icon" && "btn-ghost",
         size === "small" && "btn-sm",

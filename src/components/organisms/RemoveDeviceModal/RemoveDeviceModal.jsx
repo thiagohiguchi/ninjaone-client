@@ -64,9 +64,9 @@ export const RemoveDeviceModal = ({ device, onSuccess, onClose }) => {
       >
         {device != null ? (
           <>
-            <h4 className="text-base leading-7 mb-6">{t("deleteDevice")}</h4>
+            <h4 className="text-lg leading-lg mb-6">{t("deleteDevice")}</h4>
             <div className="mb-8">
-              <p className="">
+              <p className="text-sm leading-sm">
                 {t("deleteDeviceMessage", { name: device.system_name })}
               </p>
             </div>

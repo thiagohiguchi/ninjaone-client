@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .btn {
-  @apply rounded-[4px] pl-3 h-[38px];
+  @apply h-[2.375rem] min-h-[2.375rem];
   @apply normal-case;
 }
 
@@ -11,10 +11,18 @@
   @apply border-[#D1D0D9];
 }
 
-.checkbox {
-  @apply rounded-[4px];
+.btn-color {
+  color: white;
 }
 
 .input {
-  @apply rounded-[4px] pl-3 h-[38px];
+  @apply pl-3 h-[2.375rem];
+}
+
+.menu {
+  @apply p-0;
+}
+
+body {
+  font-family: "Inter", sans-serif;
 }
