@@ -58,15 +58,41 @@ export const DevicesManager = () => {
     }
   };
 
-  const onSuccessAddedDevice = () => {};
-  const onSuccessEditedDevice = () => {};
+  const onSuccessAddedDevice = (newDevice) => {
+    console.log(`onSuccessAddedDevice`);
+
+    // const newDevice = {
+    //   id: id,
+    //   system_name: systemName,
+    //   type: type,
+    //   hdd_capacity: hddCapacity,
+    // };
+
+    let newData = data.push(newDevice);
+    setData(newData); // Update state to add the new device
+  };
+
+  const onSuccessEditedDevice = (newDevice) => {
+    console.log(`onSuccessEditedDevice`);
+
+    const newData = data.map((device) => {
+      if (device.id === newDevice.id) {
+        return {
+          ...device,
+          ...newDevice,
+        }; // Return updated device object
+      }
+      return device;
+    });
+
+    setData(newData); // Update state to add the updated device
+  };
 
   const onSuccessDeletedDevice = (id) => {
     console.log(`onSuccessDeletedDevice`);
 
-    let filtered = data.filter((device) => device.id !== id);
-
-    setData(filtered); // Update state to remove the deleted device
+    let newData = data.filter((device) => device.id !== id);
+    setData(newData); // Update state to remove the deleted device
   };
 
   const checkFilterByDeviceType = (clickedDeviceType) => {
