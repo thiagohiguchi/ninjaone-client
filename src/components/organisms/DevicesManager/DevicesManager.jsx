@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   SORT_BY_CRITERIA,
   FILTER_DEVICE_CRITERIA,
 } from "../../../constants/config";
-
 import Input from "../../atoms/Input/Input";
 import Dropdown from "../../atoms/Dropdown/Dropdown";
 import Button from "../../atoms/Button/Button";
 import Loading from "../../atoms/Loading/Loading";
 import DeviceTypeIcon from "../../atoms/DeviceTypeIcon/DeviceTypeIcon";
-import Modal from "../../molecules/Modal/Modal";
 import RemoveDeviceModal from "../RemoveDeviceModal/RemoveDeviceModal";
 
 export const DevicesManager = () => {
+  const { t } = useTranslation();
+
   const [data, setData] = useState([]); // State to hold the fetched data
   // const [data, setData] = useState([]); // State to hold the fetched data
   const [filteredDevices, setFilteredDevices] = useState(data); // Initialize with all users
@@ -104,12 +105,12 @@ export const DevicesManager = () => {
   };
 
   const generateFilterByDeviceLabel = () => {
-    let label = "Device Type: ";
+    let label = `${t("deviceType")}: `;
 
-    if (checkFilterByDeviceType("ALL")) label += "All";
+    if (checkFilterByDeviceType("ALL")) label += t("ALL");
     else {
       for (let i = 0; i < deviceTypeFilter.length; i++) {
-        label += `${deviceTypeFilter[i]}, `;
+        label += `${t(deviceTypeFilter[i])}, `;
       }
       label = label.slice(0, -2);
     }
@@ -208,11 +209,11 @@ export const DevicesManager = () => {
     <div className="pt-6 pb-12">
       <div className="max-width w-11/12 mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h4 className="text-[20px]">Devices</h4>
+          <h4 className="text-[20px]">{t("devices")}</h4>
           <div className="">
             <Button
               type="primary"
-              label="Add Device"
+              label={t("addDevice")}
               onClick={() => document.getElementById("ab1coL2n9").showModal()}
             >
               <div className="flex gap-1 items-center">
@@ -228,7 +229,7 @@ export const DevicesManager = () => {
                     fill="#ffffff"
                   />
                 </svg>
-                <span>Add Device</span>
+                <span>{t("addDevice")}</span>
               </div>
             </Button>
             {/* <AddDeviceModal id="addDevice"></AddDeviceModal> */}
@@ -239,17 +240,17 @@ export const DevicesManager = () => {
             <div className="">
               <Input
                 type="text"
-                placeholder="Search..."
+                placeholder={t("search")}
                 value={searchTerm}
                 onChange={handleSearchChange}
                 className="w-screen max-w-64"
-                name="Search..."
+                name={t("search")}
               />
             </div>
             <div className="">
               <Dropdown
                 position="bottom"
-                name="Filter by device type"
+                name={t("filterByDeviceType")}
                 items={FILTER_DEVICE_CRITERIA.map((deviceType) => (
                   <label
                     className="label justify-start cursor-pointer"
@@ -262,7 +263,7 @@ export const DevicesManager = () => {
                       onChange={handleFilterByDeviceType}
                       checked={checkFilterByDeviceType(deviceType)}
                     />
-                    <span className="label-text">{deviceType}</span>
+                    <span className="label-text">{t(deviceType)}</span>
                   </label>
                 ))}
                 className="btn btn-outline"
@@ -287,19 +288,19 @@ export const DevicesManager = () => {
             <div className="">
               <Dropdown
                 position="bottom"
-                name="Sort by"
+                name={t("sortBy")}
                 items={SORT_BY_CRITERIA.map((sortItem) => (
                   <button
                     onClick={() => handleSortCriteria(sortItem)}
                     key={sortItem}
                   >
-                    <span className="">{sortItem}</span>
+                    <span className="">{t(sortItem)}</span>
                   </button>
                 ))}
                 className="btn btn-outline"
               >
                 <div className="flex items-center gap-2">
-                  <span className="">Sort by: {sortBy}</span>
+                  <span className="">{`${t("sortBy")}: ${t(sortBy)}`}</span>
                   <svg
                     width="16"
                     height="16"
@@ -318,11 +319,11 @@ export const DevicesManager = () => {
           </div>
           <div
             className="tooltip tooltip-left"
-            data-tip="Reset filters and update devices"
+            data-tip={t("resetAndUpdateDevices")}
           >
             <Button
               type="icon"
-              label="Reset Filters"
+              label={t("resetFilters")}
               size="small"
               onClick={handleResetFilters}
               className="btn-square p-0"
@@ -344,7 +345,7 @@ export const DevicesManager = () => {
         </div>
         <div className="flex flex-col">
           <div className="px-3 border-b border-b-[#CBCFD3]">
-            <h5 className="py-2 font-medium text-[15px]">Device</h5>
+            <h5 className="py-2 font-medium text-[15px]">{t("device")}</h5>
           </div>
           {!loading && filteredDevices.length ? (
             filteredDevices.map((device) => (
@@ -361,7 +362,7 @@ export const DevicesManager = () => {
                       </span>
                     </div>
                     <span className="text-xs leading-[14px] text-[#6E6D7A]">
-                      {device.type} - {device.hdd_capacity} GB
+                      {t(device.type)} - {device.hdd_capacity} GB
                     </span>
                   </div>
                   <div className="">
@@ -370,14 +371,14 @@ export const DevicesManager = () => {
                       name="Edit or Delete"
                       items={[
                         <button onClick={handleModal} key={`edit-${device.id}`}>
-                          Edit
+                          {t("edit")}
                         </button>,
                         <button
                           onClick={() => handleModal(device.id)}
                           className="text-error"
                           key={`delete-${device.id}`}
                         >
-                          Del
+                          {t("delete")}
                         </button>,
                       ]}
                       className="btn btn-ghost btn-sm"
@@ -405,7 +406,7 @@ export const DevicesManager = () => {
               </div>
             ))
           ) : !loading && filteredDevices.length === 0 ? (
-            <p className="pt-6 px-3">There a no devices to be shown.</p>
+            <p className="pt-6 px-3">{t("thereAreNoDevices")}</p>
           ) : (
             <Loading isLoading={loading} size="large" className="my-9" />
           )}
