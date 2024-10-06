@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { cx } from "classix";
 
 export const Button = ({
-  type = "primary",
+  type = "default",
   size = "default",
   label,
   onClick,
@@ -29,7 +29,7 @@ export const Button = ({
 
 // Add PropTypes validation
 Button.propTypes = {
-  type: PropTypes.oneOf(["primary", "icon"]).isRequired,
+  type: PropTypes.oneOf(["default", "primary", "icon"]),
   size: PropTypes.oneOf(["default", "small"]),
   label: PropTypes.string.isRequired,
   className: PropTypes.string,

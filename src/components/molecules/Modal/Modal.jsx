@@ -2,15 +2,13 @@ import { React } from "react";
 import PropTypes from "prop-types";
 import { cx } from "classix";
 
-//{ type = "primary",
-// size = "default",
-// label,
-// onClick,
-// className,
-// children, }
-export const Modal = ({ id, children }) => {
+export const Modal = ({ modalId, isVisible = true, onClose, children }) => {
   return (
-    <dialog id={id} className="modal">
+    <dialog
+      id={modalId}
+      onClose={() => onClose()}
+      className={cx(isVisible && "modal")}
+    >
       <div className="modal-box">
         <form method="dialog">
           {/* if there is a button in form, it will close the modal */}
@@ -18,8 +16,6 @@ export const Modal = ({ id, children }) => {
             ✕
           </button>
         </form>
-        {/* <h3 className="font-bold text-lg">Hello!</h3>
-        <p className="py-4">Press ESC key or click on ✕ button to close</p> */}
         {children}
       </div>
     </dialog>
@@ -30,12 +26,9 @@ export const closeModal = (id) => document.getElementById(id).close();
 
 // Add PropTypes validation
 Modal.propTypes = {
-  id: PropTypes.string.isRequired,
-  //   type: PropTypes.oneOf(["primary", "icon"]).isRequired,
-  //   size: PropTypes.oneOf(["default", "small"]),
-  //   label: PropTypes.string.isRequired,
-  //   className: PropTypes.string,
-  //   onClick: PropTypes.func.isRequired,
+  modalId: PropTypes.string.isRequired,
+  isVisible: PropTypes.bool,
+  onClose: PropTypes.func,
   children: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.arrayOf(PropTypes.object),

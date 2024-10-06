@@ -15,8 +15,8 @@ export const DevicesManager = () => {
   const { t } = useTranslation();
 
   const [data, setData] = useState([]); // State to hold the fetched data
-  // const [data, setData] = useState([]); // State to hold the fetched data
   const [filteredDevices, setFilteredDevices] = useState(data); // Initialize with all users
+  const [activeDevice, setActiveDevice] = useState(null); // State to hold the fetched data
   const [loading, setLoading] = useState(true); // State to manage loading state
   const [error, setError] = useState(null); // State to manage error
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -27,8 +27,18 @@ export const DevicesManager = () => {
   );
   const [sortBy, setSortBy] = useState(SORT_BY_CRITERIA[0]);
 
-  const handleModal = (id) => {
-    document.getElementById(id).showModal();
+  const handleModal = (deviceId, modalAction) => {
+    const device = filteredDevices.filter((device) => device.id == deviceId)[0];
+
+    if (device) {
+      console.log("device", device);
+      if (activeDevice !== null && device.id === activeDevice.id) {
+        document.getElementById(activeDevice.action).showModal();
+      } else {
+        device.action = modalAction;
+        setActiveDevice(device);
+      }
+    }
   };
 
   const handleSearchChange = (event) => {
@@ -70,6 +80,7 @@ export const DevicesManager = () => {
     // };
 
     let newData = data.push(newDevice);
+    setActiveDevice(null);
     setData(newData); // Update state to add the new device
   };
 
@@ -86,14 +97,18 @@ export const DevicesManager = () => {
       return device;
     });
 
+    setActiveDevice(null);
     setData(newData); // Update state to add the updated device
   };
 
-  const onSuccessDeletedDevice = (id) => {
+  const onSuccessDeletedDevice = () => {
     console.log(`onSuccessDeletedDevice`);
 
-    let newData = data.filter((device) => device.id !== id);
+    let newData = data.filter((device) => device.id !== activeDevice.id);
+
+    // setActiveDevice(null);
     setData(newData); // Update state to remove the deleted device
+    setActiveDevice(null);
   };
 
   const checkFilterByDeviceType = (clickedDeviceType) => {
@@ -197,11 +212,20 @@ export const DevicesManager = () => {
   };
 
   useEffect(() => {
+    console.log(`getElementById`);
+
+    if (activeDevice !== null)
+      document.getElementById(activeDevice.action).showModal();
+  }, [activeDevice]);
+
+  useEffect(() => {
+    console.log(`effect fetch data`);
     fetchDevicesData(); // Call the fetch function
   }, []); // Empty dependency array means this effect runs once after the initial render
 
   // Trigger filtering after data/filters/sorting is updated
   useEffect(() => {
+    console.log(`effect boladão`);
     filterAndSortDevices(); // Call the filter function after data is fetched
   }, [data, searchTerm, deviceTypeFilter, sortBy]);
 
@@ -368,13 +392,20 @@ export const DevicesManager = () => {
                   <div className="">
                     <Dropdown
                       position="bottom-end"
-                      name="Edit or Delete"
+                      name={t("editOrDelete")}
                       items={[
-                        <button onClick={handleModal} key={`edit-${device.id}`}>
+                        <button
+                          onClick={() =>
+                            handleModal(device.id, `edit-${device.id}`)
+                          }
+                          key={`edit-${device.id}`}
+                        >
                           {t("edit")}
                         </button>,
                         <button
-                          onClick={() => handleModal(device.id)}
+                          onClick={() =>
+                            handleModal(device.id, `delete-device`)
+                          }
                           className="text-error"
                           key={`delete-${device.id}`}
                         >
@@ -396,11 +427,6 @@ export const DevicesManager = () => {
                         />
                       </svg>
                     </Dropdown>
-                    <RemoveDeviceModal
-                      id={device.id}
-                      deviceName={device.system_name}
-                      onSuccess={() => onSuccessDeletedDevice(device.id)}
-                    />
                   </div>
                 </div>
               </div>
@@ -410,6 +436,12 @@ export const DevicesManager = () => {
           ) : (
             <Loading isLoading={loading} size="large" className="my-9" />
           )}
+
+          <RemoveDeviceModal
+            device={activeDevice}
+            onSuccess={() => onSuccessDeletedDevice(activeDevice.id)}
+            onClose={() => setActiveDevice(null)}
+          />
         </div>
       </div>
     </div>

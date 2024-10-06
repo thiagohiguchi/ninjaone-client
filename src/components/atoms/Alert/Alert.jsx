@@ -1,9 +1,45 @@
-import { React } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { cx } from "classix";
 
-export const Alert = ({ type = "default", message, className }) => {
-  return (
+export const Alert = ({
+  type = "default",
+  message,
+  isVisible,
+  onTimeout,
+  className,
+}) => {
+  // const [showAlert, setShowAlert] = useState(true); // Initially hide the alert
+
+  // useEffect(() => {
+  //   console.log(`useEffect Alert`);
+
+  //   const timer = setTimeout(() => {
+  //     console.log(`timer ended`);
+  //     setShowAlert(false); // Hide the alert after 3 seconds
+  //   }, 3000); // 3000ms = 3 seconds
+  //   return () => clearTimeout(timer); // Cleanup timeout if the component unmounts
+  // }, []);
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     onTimeout(); // Notify parent component when the timeout is done
+  //   }, 3000);
+
+  //   return () => clearTimeout(timer); // Cleanup the timer
+  // }, [onTimeout]);
+
+  useEffect(() => {
+    if (isVisible) {
+      const timer = setTimeout(() => {
+        onTimeout(); // Notify parent component when the timeout is done
+      }, 3000);
+
+      return () => clearTimeout(timer); // Cleanup the timer
+    }
+  }, [isVisible, onTimeout]);
+
+  return isVisible ? (
     <div
       role="alert"
       className={cx(
@@ -78,12 +114,14 @@ export const Alert = ({ type = "default", message, className }) => {
       )}
       <span className="text-md leading-tight">{message}</span>
     </div>
-  );
+  ) : null;
 };
 
 Alert.propTypes = {
   type: PropTypes.oneOf(["default", "warning", "error", "success"]),
   message: PropTypes.string.isRequired,
+  isVisible: PropTypes.bool,
+  onTimeout: PropTypes.func,
   className: PropTypes.string,
 };
 
