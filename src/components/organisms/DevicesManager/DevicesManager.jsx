@@ -307,7 +307,7 @@ export const DevicesManager = () => {
           <div className="px-3 border-b border-b-[#CBCFD3]">
             <h5 className="py-2 font-medium text-[15px]">Device</h5>
           </div>
-          {!loading ? (
+          {!loading && filteredDevices.length ? (
             filteredDevices.map((device) => (
               <div
                 className="px-3 py-[9px] border-b border-b-[#E7E8EB] hover:bg-[#F4F4F5] focus:bg-[#F4F4F5]"
@@ -360,6 +360,8 @@ export const DevicesManager = () => {
                 </div>
               </div>
             ))
+          ) : !loading && filteredDevices.length === 0 ? (
+            <p className="pt-6 px-3">There a no devices to be shown.</p>
           ) : (
             <Loading isLoading={loading} className="my-9" />
           )}
