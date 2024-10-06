@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { cx } from "classix";
+import { delay } from "../../../utils";
+import { REQUEST_DELAY } from "../../../constants/config";
 import Button from "../../atoms/Button/Button";
 import Loading from "../../atoms/Loading/Loading";
 import { Modal, closeModal } from "../../molecules/Modal/Modal";
@@ -23,7 +25,8 @@ export const RemoveDeviceModal = ({ device, onSuccess, onClose }) => {
   };
 
   const deleteDevice = async (id) => {
-    console.log("RemoveDeviceModal", id);
+    setLoading(true);
+    await delay(REQUEST_DELAY); // Add default delay to present locking mechanisms and animations
 
     fetch(`${apiUrl}/devices/${id}`, { method: "DELETE" })
       .then(async (response) => {
@@ -37,8 +40,6 @@ export const RemoveDeviceModal = ({ device, onSuccess, onClose }) => {
           return Promise.reject(error);
         }
 
-        console.log("data =========", typeof r);
-
         setData(true);
         onSuccess();
       })
@@ -51,13 +52,8 @@ export const RemoveDeviceModal = ({ device, onSuccess, onClose }) => {
         setLoading(false);
         setShowAlert(true);
         closeModal(MODAL_ID);
-        console.log("data >>>>>", data);
       });
   };
-
-  useEffect(() => {
-    console.log(`RemoveDeviceModal effect`);
-  }, []);
 
   return (
     <>

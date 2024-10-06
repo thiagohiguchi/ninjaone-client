@@ -212,8 +212,6 @@ export const DevicesManager = () => {
   };
 
   useEffect(() => {
-    console.log(`getElementById`);
-
     if (activeDevice !== null)
       document.getElementById(activeDevice.action).showModal();
   }, [activeDevice]);
@@ -225,7 +223,6 @@ export const DevicesManager = () => {
 
   // Trigger filtering after data/filters/sorting is updated
   useEffect(() => {
-    console.log(`effect boladão`);
     filterAndSortDevices(); // Call the filter function after data is fetched
   }, [data, searchTerm, deviceTypeFilter, sortBy]);
 
