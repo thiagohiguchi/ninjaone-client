@@ -1,32 +1,31 @@
 import React, { useEffect, useState } from "react";
+import {
+  SORT_BY_CRITERIA,
+  FILTER_DEVICE_CRITERIA,
+} from "../../../constants/config";
+
 import Input from "../../atoms/Input/Input";
 import Dropdown from "../../atoms/Dropdown/Dropdown";
 import Button from "../../atoms/Button/Button";
 import Loading from "../../atoms/Loading/Loading";
 import DeviceTypeIcon from "../../atoms/DeviceTypeIcon/DeviceTypeIcon";
+import Modal from "../../molecules/Modal/Modal";
+import RemoveDeviceModal from "../RemoveDeviceModal/RemoveDeviceModal";
 
 export const DevicesManager = () => {
-  const sortByCriteria = [
-    "DEFAULT",
-    "NAME-ASC",
-    "NAME-DESC",
-    "HDD-ASC",
-    "HDD-DESC",
-  ];
-  const filterDeviceCriteria = ["ALL", "WINDOWS", "LINUX", "MAC"];
-
   const [data, setData] = useState([]); // State to hold the fetched data
   const [filteredDevices, setFilteredDevices] = useState(data); // Initialize with all users
   const [loading, setLoading] = useState(true); // State to manage loading state
   const [error, setError] = useState(null); // State to manage error
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const [searchTerm, setSearchTerm] = useState("");
   const [deviceTypeFilter, setDeviceTypeFilter] = useState(
-    filterDeviceCriteria.slice(1)
+    FILTER_DEVICE_CRITERIA.slice(1)
   );
-  const [sortBy, setSortBy] = useState(sortByCriteria[0]);
+  const [sortBy, setSortBy] = useState(SORT_BY_CRITERIA[0]);
 
-  const handleAdd = () => {
+  const handleAdd = (modalId) => {
     console.log(`add`);
   };
 
@@ -61,14 +60,14 @@ export const DevicesManager = () => {
     }
 
     if (clickedDeviceType === "ALL") {
-      if (isChecked) setDeviceTypeFilter(filterDeviceCriteria.slice(1));
+      if (isChecked) setDeviceTypeFilter(FILTER_DEVICE_CRITERIA.slice(1));
       else setDeviceTypeFilter([]);
     }
   };
 
   const checkFilterByDeviceType = (clickedDeviceType) => {
     // If every item is in the list, then return true regardless
-    if (deviceTypeFilter.length === filterDeviceCriteria.length - 1)
+    if (deviceTypeFilter.length === FILTER_DEVICE_CRITERIA.length - 1)
       return true;
 
     return deviceTypeFilter.includes(clickedDeviceType);
@@ -94,8 +93,8 @@ export const DevicesManager = () => {
   const handleResetFilters = () => {
     setLoading(true);
     setSearchTerm("");
-    setDeviceTypeFilter(filterDeviceCriteria.slice(1));
-    setSortBy(sortByCriteria[0]);
+    setDeviceTypeFilter(FILTER_DEVICE_CRITERIA.slice(1));
+    setSortBy(SORT_BY_CRITERIA[0]);
 
     fetchDevicesData();
   };
@@ -119,7 +118,7 @@ export const DevicesManager = () => {
     } else filtered = [];
 
     // Sort
-    if (sortBy !== sortByCriteria[0]) {
+    if (sortBy !== SORT_BY_CRITERIA[0]) {
       switch (sortBy) {
         case "NAME-ASC":
           filtered = filtered.sort((a, b) => {
@@ -153,7 +152,7 @@ export const DevicesManager = () => {
 
   const fetchDevicesData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/devices");
+      const response = await fetch(`${apiUrl}/devices`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -181,7 +180,11 @@ export const DevicesManager = () => {
         <div className="flex justify-between items-center mb-6">
           <h4 className="text-[20px]">Devices</h4>
           <div className="">
-            <Button type="primary" label="Add Device" onClick={handleAdd}>
+            <Button
+              type="primary"
+              label="Add Device"
+              onClick={() => document.getElementById("addDevice").showModal()}
+            >
               <div className="flex gap-1 items-center">
                 <svg
                   width="16"
@@ -198,6 +201,13 @@ export const DevicesManager = () => {
                 <span>Add Device</span>
               </div>
             </Button>
+            {/* <AddDeviceModal id="addDevice"></AddDeviceModal> */}
+            <RemoveDeviceModal
+              id="addDevice"
+              deviceName="addDevice"
+              onClick={() => console.log("del")}
+            ></RemoveDeviceModal>
+            {/* <Modal id="addDevice"></Modal> */}
           </div>
         </div>
         <div className="flex justify-between items-center mb-4">
@@ -216,7 +226,7 @@ export const DevicesManager = () => {
               <Dropdown
                 position="bottom"
                 name="Filter by device type"
-                items={filterDeviceCriteria.map((deviceType) => (
+                items={FILTER_DEVICE_CRITERIA.map((deviceType) => (
                   <label
                     className="label justify-start cursor-pointer"
                     key={deviceType}
@@ -254,7 +264,7 @@ export const DevicesManager = () => {
               <Dropdown
                 position="bottom"
                 name="Sort by"
-                items={sortByCriteria.map((sortItem) => (
+                items={SORT_BY_CRITERIA.map((sortItem) => (
                   <button
                     onClick={() => handleSortCriteria(sortItem)}
                     key={sortItem}
