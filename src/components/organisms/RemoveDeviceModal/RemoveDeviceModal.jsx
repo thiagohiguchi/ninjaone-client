@@ -1,97 +1,107 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { cx } from "classix";
 import Button from "../../atoms/Button/Button";
 import Loading from "../../atoms/Loading/Loading";
-import Modal from "../../molecules/Modal/Modal";
+import { Modal, closeModal } from "../../molecules/Modal/Modal";
+import Alert from "../../atoms/Alert/Alert";
 
-export const RemoveDeviceModal = ({ id, deviceName, onClick }) => {
-  // const [data, setData] = useState([]); // State to hold the fetched data
-  // const [loading, setLoading] = useState(true); // State to manage loading state
-  // const [error, setError] = useState(null); // State to manage error
+export const RemoveDeviceModal = ({ id, deviceName, onSuccess }) => {
+  const [showAlert, setShowAlert] = useState(true); // Initially hide the alert
+  const [data, setData] = useState(null); // State to hold the fetched data
+  const [loading, setLoading] = useState(false); // State to manage loading state
+  const [error, setError] = useState(null); // State to manage error
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  const handleDelete = async (id) => {
-    // // Optimistically remove the item from the UI
-    // const newItems = items.filter((item) => item.id !== id);
-    // setItems(newItems);
+  const deleteDevice = async (id) => {
+    console.log("RemoveDeviceModal", id);
 
-    // // Send the DELETE request
-    // axios.delete(`${apiUrl}/devices/${id}`).catch((error) => {
-    //   // If delete fails, restore the previous state
-    //   console.error("Error deleting item:", error);
-    //   setItems([...newItems, items.find((item) => item.id === id)]);
-    // });
+    fetch(`${apiUrl}/devices/${id}`, { method: "DELETE" })
+      .then(async (response) => {
+        const data = await response.json();
 
-    // try {
-    //   fetch(`${apiUrl}/devices/${id}`), {
-    //     method: 'DELETE', // Specify the request method
-    //   })
-    //   if (!response.ok) {
-    //     throw new Error("Network response was not ok");
-    //   }
-    //   const jsonData = await response.json();
-    //   setData(jsonData); // Set the fetched data to state
-    // } catch (err) {
-    //   setError(err.message); // Set error message if fetch fails
-    // } finally {
-    //   setLoading(false); // Set loading to false after the fetch is done
-    // }
-
-    fetch(`${apiUrl}/devices/${id}`, {
-      method: "DELETE", // Specify the request method
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+        // check for error response
+        if (!response.ok || data === 0) {
+          // get error message from body or default to response status
+          const error = (data && data.message) || response.status;
+          setData(false);
+          return Promise.reject(error);
         }
-        return response.json(); // Depending on API, you might not need to parse JSON
-      })
-      .then((data) => {
-        console.log("Post deleted:", data);
+
+        setData(true);
+        onSuccess();
       })
       .catch((error) => {
-        console.error("Error deleting post:", error);
+        setData(false);
+        setError(error);
+        console.error("There was an error!", error);
+      })
+      .finally(() => {
+        setLoading(false);
+        closeModal(id);
       });
   };
 
-  return (
-    <Modal id={id}>
-      <h4 className="text-base leading-7">Devices</h4>
-      <p className="">
-        You are about to delete the device {deviceName}. This action cannot be
-        undone.
-      </p>
+  useEffect(() => {
+    console.log(`useEffect RemoveDeviceModal`);
+    const timer = setTimeout(() => {
+      setShowAlert(false); // Hide the alert after 3 seconds
+    }, 3000); // 3000ms = 3 seconds
 
-      <div className="flex items-center justify-end gap-2">
-        <Button
-          label="Cancel"
-          size="small"
-          onClick={() => console.log("close")}
-          className="btn-outline"
+    return () => clearTimeout(timer); // Cleanup timeout if the component unmounts
+  }, [data]);
+
+  return (
+    <>
+      <Modal id={id}>
+        <h4 className="text-base leading-7 mb-6">Devices</h4>
+        <div className="mb-8">
+          <p className="">
+            You are about to delete the device {deviceName}. This action cannot
+            be undone.
+          </p>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex">
+            <Loading isLoading={loading} size="small" className="" />
+          </div>
+          <div className="flex items-center justify-end gap-2">
+            <Button
+              label="Cancel"
+              size="small"
+              onClick={() => closeModal(id)}
+              className={cx("btn-outline", loading && "btn-disabled")}
+              disabled={loading}
+            />
+            <Button
+              label="Delete"
+              size="small"
+              onClick={() => deleteDevice(id)}
+              className={cx("btn-error", loading && "btn-disabled")}
+              disabled={loading}
+            />
+          </div>
+        </div>
+      </Modal>
+      {showAlert && data !== null && (
+        <Alert
+          type={error || data === false ? "error" : "success"}
+          message={
+            error || data === true
+              ? "There was an error deleting the device, please try again later."
+              : "Success" + "Ut deserunt ipsum fugiat consequat labore aute."
+          }
         />
-        <Button
-          label="Delete"
-          size="small"
-          onClick={handleDelete(id)}
-          className="btn-error"
-        />
-      </div>
-    </Modal>
+      )}
+    </>
   );
 };
 
 // Add PropTypes validation
 RemoveDeviceModal.propTypes = {
   id: PropTypes.string.isRequired,
-  //   type: PropTypes.oneOf(["primary", "icon"]).isRequired,
-  //   size: PropTypes.oneOf(["default", "small"]),
   deviceName: PropTypes.string.isRequired,
-  //   className: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
-  // children: PropTypes.oneOfType([
-  //   PropTypes.object,
-  //   PropTypes.arrayOf(PropTypes.object),
-  // ]),
+  onSuccess: PropTypes.func.isRequired,
 };
 
 export default RemoveDeviceModal;

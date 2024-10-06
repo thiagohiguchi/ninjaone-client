@@ -26,6 +26,8 @@ export const Modal = ({ id, children }) => {
   );
 };
 
+export const closeModal = (id) => document.getElementById(id).close();
+
 // Add PropTypes validation
 Modal.propTypes = {
   id: PropTypes.string.isRequired,

@@ -14,6 +14,7 @@ import RemoveDeviceModal from "../RemoveDeviceModal/RemoveDeviceModal";
 
 export const DevicesManager = () => {
   const [data, setData] = useState([]); // State to hold the fetched data
+  // const [data, setData] = useState([]); // State to hold the fetched data
   const [filteredDevices, setFilteredDevices] = useState(data); // Initialize with all users
   const [loading, setLoading] = useState(true); // State to manage loading state
   const [error, setError] = useState(null); // State to manage error
@@ -25,16 +26,8 @@ export const DevicesManager = () => {
   );
   const [sortBy, setSortBy] = useState(SORT_BY_CRITERIA[0]);
 
-  const handleAdd = (modalId) => {
-    console.log(`add`);
-  };
-
-  const handleEdit = (id) => {
-    // console.log(`edit`, id);
-  };
-
-  const handleDelete = (id) => {
-    // console.log(`delete`, id);
+  const handleModal = (id) => {
+    document.getElementById(id).showModal();
   };
 
   const handleSearchChange = (event) => {
@@ -63,6 +56,17 @@ export const DevicesManager = () => {
       if (isChecked) setDeviceTypeFilter(FILTER_DEVICE_CRITERIA.slice(1));
       else setDeviceTypeFilter([]);
     }
+  };
+
+  const onSuccessAddedDevice = () => {};
+  const onSuccessEditedDevice = () => {};
+
+  const onSuccessDeletedDevice = (id) => {
+    console.log(`onSuccessDeletedDevice`);
+
+    let filtered = data.filter((device) => device.id !== id);
+
+    setData(filtered); // Update state to remove the deleted device
   };
 
   const checkFilterByDeviceType = (clickedDeviceType) => {
@@ -183,7 +187,7 @@ export const DevicesManager = () => {
             <Button
               type="primary"
               label="Add Device"
-              onClick={() => document.getElementById("addDevice").showModal()}
+              onClick={() => document.getElementById("ab1coL2n9").showModal()}
             >
               <div className="flex gap-1 items-center">
                 <svg
@@ -202,12 +206,6 @@ export const DevicesManager = () => {
               </div>
             </Button>
             {/* <AddDeviceModal id="addDevice"></AddDeviceModal> */}
-            <RemoveDeviceModal
-              id="addDevice"
-              deviceName="addDevice"
-              onClick={() => console.log("del")}
-            ></RemoveDeviceModal>
-            {/* <Modal id="addDevice"></Modal> */}
           </div>
         </div>
         <div className="flex justify-between items-center mb-4">
@@ -292,26 +290,31 @@ export const DevicesManager = () => {
               </Dropdown>
             </div>
           </div>
-          <Button
-            type="icon"
-            label="Reset Filters"
-            size="small"
-            onClick={handleResetFilters}
-            className="btn-square p-0"
+          <div
+            className="tooltip tooltip-left"
+            data-tip="Reset filters and update devices"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+            <Button
+              type="icon"
+              label="Reset Filters"
+              size="small"
+              onClick={handleResetFilters}
+              className="btn-square p-0"
             >
-              <path
-                d="M14.5 1C14.2188 1 14 1.25 14 1.5V5.5625C13 3.125 10.625 1.5 8 1.5C4.8125 1.5 2.09375 3.78125 1.5625 6.9375C1.53125 7.21875 1.71875 7.46875 2 7.5C2 7.5 2.03125 7.5 2.0625 7.5C2.3125 7.5 2.53125 7.34375 2.5625 7.09375C3 4.4375 5.28125 2.5 8 2.5C10.25 2.5 12.2812 3.90625 13.0938 6H9.5C9.21875 6 9 6.25 9 6.5C9 6.78125 9.21875 7 9.5 7H14.5C14.75 7 15 6.78125 15 6.5V1.5C15 1.25 14.75 1 14.5 1ZM13.9688 8.53125C13.6875 8.46875 13.4375 8.65625 13.375 8.9375C12.9688 11.5938 10.6875 13.5 7.96875 13.5C5.6875 13.5 3.65625 12.125 2.84375 10H6.5C6.75 10 7 9.78125 7 9.5C7 9.25 6.75 9 6.5 9H1.5C1.21875 9 1 9.25 1 9.5V14.5C1 14.7812 1.21875 15 1.5 15C1.75 15 2 14.7812 2 14.5V10.4688C2.96875 12.9062 5.34375 14.5 8 14.5C11.1562 14.5 13.875 12.25 14.4062 9.09375C14.4375 8.8125 14.25 8.5625 13.9688 8.53125Z"
-                fill="#595766"
-              />
-            </svg>
-          </Button>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14.5 1C14.2188 1 14 1.25 14 1.5V5.5625C13 3.125 10.625 1.5 8 1.5C4.8125 1.5 2.09375 3.78125 1.5625 6.9375C1.53125 7.21875 1.71875 7.46875 2 7.5C2 7.5 2.03125 7.5 2.0625 7.5C2.3125 7.5 2.53125 7.34375 2.5625 7.09375C3 4.4375 5.28125 2.5 8 2.5C10.25 2.5 12.2812 3.90625 13.0938 6H9.5C9.21875 6 9 6.25 9 6.5C9 6.78125 9.21875 7 9.5 7H14.5C14.75 7 15 6.78125 15 6.5V1.5C15 1.25 14.75 1 14.5 1ZM13.9688 8.53125C13.6875 8.46875 13.4375 8.65625 13.375 8.9375C12.9688 11.5938 10.6875 13.5 7.96875 13.5C5.6875 13.5 3.65625 12.125 2.84375 10H6.5C6.75 10 7 9.78125 7 9.5C7 9.25 6.75 9 6.5 9H1.5C1.21875 9 1 9.25 1 9.5V14.5C1 14.7812 1.21875 15 1.5 15C1.75 15 2 14.7812 2 14.5V10.4688C2.96875 12.9062 5.34375 14.5 8 14.5C11.1562 14.5 13.875 12.25 14.4062 9.09375C14.4375 8.8125 14.25 8.5625 13.9688 8.53125Z"
+                  fill="#595766"
+                />
+              </svg>
+            </Button>
+          </div>
         </div>
         <div className="flex flex-col">
           <div className="px-3 border-b border-b-[#CBCFD3]">
@@ -340,11 +343,11 @@ export const DevicesManager = () => {
                       position="bottom-end"
                       name="Edit or Delete"
                       items={[
-                        <button onClick={handleEdit} key={`edit-${device.id}`}>
+                        <button onClick={handleModal} key={`edit-${device.id}`}>
                           Edit
                         </button>,
                         <button
-                          onClick={handleDelete}
+                          onClick={() => handleModal(device.id)}
                           className="text-error"
                           key={`delete-${device.id}`}
                         >
@@ -366,6 +369,11 @@ export const DevicesManager = () => {
                         />
                       </svg>
                     </Dropdown>
+                    <RemoveDeviceModal
+                      id={device.id}
+                      deviceName={device.system_name}
+                      onSuccess={() => onSuccessDeletedDevice(device.id)}
+                    />
                   </div>
                 </div>
               </div>
@@ -373,7 +381,7 @@ export const DevicesManager = () => {
           ) : !loading && filteredDevices.length === 0 ? (
             <p className="pt-6 px-3">There a no devices to be shown.</p>
           ) : (
-            <Loading isLoading={loading} className="my-9" />
+            <Loading isLoading={loading} size="large" className="my-9" />
           )}
         </div>
       </div>
