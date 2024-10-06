@@ -1,4 +1,4 @@
-export const REQUEST_DELAY = 600;
+export const REQUEST_DELAY = 800;
 
 export const SORT_BY_CRITERIA = [
     "DEFAULT",

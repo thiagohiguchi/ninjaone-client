@@ -3,7 +3,9 @@ import { useTranslation } from "react-i18next";
 import {
   SORT_BY_CRITERIA,
   FILTER_DEVICE_CRITERIA,
+  REQUEST_DELAY,
 } from "../../../constants/config";
+import { delay } from "../../../utils";
 import Input from "../../atoms/Input/Input";
 import Dropdown from "../../atoms/Dropdown/Dropdown";
 import Button from "../../atoms/Button/Button";
@@ -31,7 +33,6 @@ export const DevicesManager = () => {
     const device = filteredDevices.filter((device) => device.id == deviceId)[0];
 
     if (device) {
-      console.log("device", device);
       if (activeDevice !== null && device.id === activeDevice.id) {
         document.getElementById(activeDevice.action).showModal();
       } else {
@@ -102,11 +103,8 @@ export const DevicesManager = () => {
   };
 
   const onSuccessDeletedDevice = () => {
-    console.log(`onSuccessDeletedDevice`);
-
     let newData = data.filter((device) => device.id !== activeDevice.id);
 
-    // setActiveDevice(null);
     setData(newData); // Update state to remove the deleted device
     setActiveDevice(null);
   };
@@ -137,7 +135,6 @@ export const DevicesManager = () => {
   };
 
   const handleResetFilters = () => {
-    setLoading(true);
     setSearchTerm("");
     setDeviceTypeFilter(FILTER_DEVICE_CRITERIA.slice(1));
     setSortBy(SORT_BY_CRITERIA[0]);
@@ -197,6 +194,9 @@ export const DevicesManager = () => {
   };
 
   const fetchDevicesData = async () => {
+    setLoading(true);
+    await delay(REQUEST_DELAY); // Add default delay to present locking mechanisms and animations
+
     try {
       const response = await fetch(`${apiUrl}/devices`);
       if (!response.ok) {
