@@ -14,7 +14,7 @@ i18n
       escapeValue: false // React already escapes by default
     },
     backend: {
-      loadPath: `${import.meta.env.PROD !== "production" ? '/ninjaone-client' : '' }/locales/{{lng}}/translation.json` // Path to language files
+      loadPath: `${import.meta.env.PROD ? '/ninjaone-client' : '' }/locales/{{lng}}/translation.json` // Path to language files
     },
   });
 
