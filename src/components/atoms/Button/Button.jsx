@@ -14,7 +14,7 @@ export const Button = ({
     <button
       className={cx(
         "hover:cursor-pointer btn text-sm font-normal",
-        type === "primary" && "btn-primary",
+        type === "primary" && "btn-primary text-white",
         type === "icon" && "btn-ghost",
         size === "small" && "btn-sm",
         className

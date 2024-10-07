@@ -83,10 +83,14 @@ export const RemoveDeviceModal = ({ device, onSuccess, onClose }) => {
                   disabled={loading}
                 />
                 <Button
+                  type="primary"
                   label={t("delete")}
                   size="small"
                   onClick={() => deleteDevice(device.id)}
-                  className={cx("btn-error", loading && "btn-disabled")}
+                  className={cx(
+                    "btn-error text-white",
+                    loading && "btn-disabled"
+                  )}
                   disabled={loading}
                 />
               </div>
