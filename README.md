@@ -72,6 +72,9 @@ npm run storybook
 
 # builds Storybook for production.
 npm run build-storybook
+
+# setup the local dev environment and run the cypress testing suite
+npm run cypress:open
 ```
 
 ## Cool Features
