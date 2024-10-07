@@ -4,7 +4,8 @@
 
 This repo organizes the source code of the NinjaOne React Showcase.
 
-:rocket: [DEMO](http://137.184.201.229/)
+:rocket: [LIVE DEMO](https://thiagohiguchi.github.io/ninjaone-client/)
+
 
 The project has a simple SPA architecture with the following stack:
 
@@ -16,9 +17,11 @@ The project has a simple SPA architecture with the following stack:
 - [ESLint](https://eslint.org/): A pluggable linting utility for JavaScript and JSX that enforces coding best practices and helps catch errors.
 - [Prettier](https://prettier.io/): An opinionated code formatter that ensures consistent code style across your project.
 - [i18next](https://react.i18next.com/): A internationalization framework.
-- Structure: Project structured inspired by [`React Modern Template`](https://github.com/ignatiosdev/React-Vite-Tailwind-DaisyUI-Storybook-Boilerplate).
+- Structure: Project structured inspired by [React Modern Template](https://github.com/ignatiosdev/React-Vite-Tailwind-DaisyUI-Storybook-Boilerplate).
 - UI Design: Provided by NinjaOne, via [figma](https://www.figma.com/design/B3tlX0vhKn1io0ajJdIGtV/NinjaOne-React-Dev-Showcase).
-<!-- - Hosting: [Digital Ocean Droplet](https://www.digitalocean.com/products/droplets) -->
+- Frontend Hosting: [GH Pages](https://www.github.com/)
+- Backend Hosting: [Render](https://www.render.com/) - [Live API Endpoint](https://ninjaone-backend.onrender.com)
+
 
 ## Project Design
 
@@ -41,11 +44,11 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
+Open [http://localhost:5173/ninjaone-client/](http://localhost:5173/ninjaone-client/) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `src.App.jsx`. The page auto-updates as you edit the file.
 
-The devices data is provided by a REST API, which is available though the [devicesTask_serverApp](https://github.com/NinjaRMM/devicesTask_serverApp) application, deployed [here](https://google.com).
+The devices data is provided by a REST API, which is available though the [devicesTask_serverApp](https://github.com/NinjaRMM/devicesTask_serverApp) application, deployed [here](https://ninjaone-backend.onrender.com) for a live demo.
 
 ### Additional Scripts
 
@@ -71,10 +74,26 @@ npm run build-storybook
 
 ## Next steps
 
+- [x] Device filters
+- [x] Device sorting
+- [x] CRUD device
+- [x] Fully responsive
+- [x] Support i18n (mulyiple languages)
+- [x] Deploy & CI/CD
+- [x] Setup & start Storybook DOCs
+- [x] Readme
+- [x] Basic validations
+- [x] Connect to API
+- [x] Navigation fully accessible
+- [ ] Deployment via CI/CD
 - [ ] Add 400 and 500 error pages
 - [ ] Better support to meta data
-- [ ] Deployment via CI/CD
 - [ ] Improve linting config
-- [ ] Implement testing workflows
+- [ ] Fix Dropdown closing behavior
+- [ ] Refactor components 'EditDeviceModal' and 'AddDeviceModal'
+- [ ] Add testing workflows
+- [ ] Improve transitions & animations
+- [ ] Full support to TypeScript
+- [ ] Refactor 'validateFields'
 - [ ] Improve accessibility
 And much, much, much more.
