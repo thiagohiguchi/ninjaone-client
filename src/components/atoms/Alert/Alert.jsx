@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { cx } from "classix";
 
@@ -9,26 +9,6 @@ export const Alert = ({
   onTimeout,
   className,
 }) => {
-  // const [showAlert, setShowAlert] = useState(true); // Initially hide the alert
-
-  // useEffect(() => {
-  //   console.log(`useEffect Alert`);
-
-  //   const timer = setTimeout(() => {
-  //     console.log(`timer ended`);
-  //     setShowAlert(false); // Hide the alert after 3 seconds
-  //   }, 3000); // 3000ms = 3 seconds
-  //   return () => clearTimeout(timer); // Cleanup timeout if the component unmounts
-  // }, []);
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     onTimeout(); // Notify parent component when the timeout is done
-  //   }, 3000);
-
-  //   return () => clearTimeout(timer); // Cleanup the timer
-  // }, [onTimeout]);
-
   useEffect(() => {
     if (isVisible) {
       const timer = setTimeout(() => {

@@ -29,7 +29,6 @@ export const AddDeviceModal = ({ onSuccess, onClose }) => {
     type: [],
     hdd_capacity: [],
   });
-  const [isValid, setIsValid] = useState(true);
   const [data, setData] = useState(null); // State to hold the fetched data
   const [loading, setLoading] = useState(false); // State to manage loading state
   const [error, setError] = useState(false); // State to manage error
@@ -45,11 +44,9 @@ export const AddDeviceModal = ({ onSuccess, onClose }) => {
       case "system_name":
         if (!value) {
           tempErrors.push(t("systemNameRequired"));
-          setIsValid(true);
         } else if (!/^[A-Z0-9-]+$/.test(value)) {
           // Only uppercase letters, numbers and -
           tempErrors.push(t("systemNameWrongValue"));
-          setIsValid(true);
         }
         break;
       case "type":

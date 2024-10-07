@@ -24,7 +24,6 @@ export const DevicesManager = () => {
   const [activeDevice, setActiveDevice] = useState(null); // State to hold the fetched data
   const [showFiltersMobile, setShowFiltersMobile] = useState(false);
   const [loading, setLoading] = useState(true); // State to manage loading state
-  const [error, setError] = useState(null); // State to manage error
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -199,7 +198,7 @@ export const DevicesManager = () => {
       const jsonData = await response.json();
       setData(jsonData); // Set the fetched data to state
     } catch (err) {
-      setError(err.message); // Set error message if fetch fails
+      console.log(err.message); // Set error message if fetch fails
     } finally {
       setLoading(false); // Set loading to false after the fetch is done
     }
