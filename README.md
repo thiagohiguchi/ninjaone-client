@@ -11,18 +11,19 @@ The project has a simple SPA architecture with the following stack:
 - [Vite](https://vitejs.dev/): A fast build tool that helps you develop React applications.
 - [React](https://reactjs.org/): A JavaScript library for building user interfaces.
 - [Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework for rapidly building custom designs.
-- [Typescript](https://typescriptlang.org/): A superset of JavaScript that adds static typing and other features, improving code quality and making large-scale development easier..
 - [DaisyUI](https://daisyui.com/): A plugin for Tailwind CSS that provides a set of ready-to-use components.
 - [Storybook](https://storybook.js.org/): A development environment for UI components that allows you to build, test, and document your UI components in isolation.
 - [ESLint](https://eslint.org/): A pluggable linting utility for JavaScript and JSX that enforces coding best practices and helps catch errors.
 - [Prettier](https://prettier.io/): An opinionated code formatter that ensures consistent code style across your project.
+- [i18next](https://react.i18next.com/): A internationalization framework.
 - Structure: Project structured inspired by [`React Modern Template`](https://github.com/ignatiosdev/React-Vite-Tailwind-DaisyUI-Storybook-Boilerplate).
 - UI Design: Provided by NinjaOne, via [figma](https://www.figma.com/design/B3tlX0vhKn1io0ajJdIGtV/NinjaOne-React-Dev-Showcase).
-- Hosting: [Digital Ocean Droplet](https://www.digitalocean.com/products/droplets)
+<!-- - Hosting: [Digital Ocean Droplet](https://www.digitalocean.com/products/droplets) -->
 
 ## Project Design
 
-Qui magna incididunt proident eiusmod ea irure deserunt pariatur exercitation ea tempor enim officia. Nulla eu ullamco anim sint voluptate magna laboris sint veniam nostrud occaecat labore dolore. Tempor incididunt voluptate qui qui sint anim culpa velit cupidatat exercitation culpa eu.
+The project is organized using an Atomic Design approach, which categorizes elements into three levels based on their complexity and relationships with one another. Additionally, several key files and variables are implemented to enhance code readability and maintainability. 
+Additionally, the project is mobile first and fully responsive.
 
 ## Getting Started
 
@@ -72,11 +73,8 @@ npm run build-storybook
 
 - [ ] Add 400 and 500 error pages
 - [ ] Better support to meta data
-- [ ] Support to structured data
 - [ ] Deployment via CI/CD
 - [ ] Improve linting config
 - [ ] Implement testing workflows
-- [ ] Add fallbacks for edge cases
-- [ ] Implement additional validations
 - [ ] Improve accessibility
 And much, much, much more.
