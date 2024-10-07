@@ -76,18 +76,18 @@ npm run build-storybook
 
 ## Cool Features
 
-:white_check_mark: Device filters
-:white_check_mark: Device sorting
-:white_check_mark: CRUD device
-:white_check_mark: Fully responsive
-:white_check_mark: Support i18n (mulyiple languages)
-:white_check_mark: Deploy & CI/CD
-:white_check_mark: Storybook setup
-:white_check_mark: Initial e2e testing workflow with cypress
-:white_check_mark: README
-:white_check_mark: Basic validations
-:white_check_mark: Connect to API
-:white_check_mark: Navigation fully accessible
+- :white_check_mark: Device filters
+- :white_check_mark: Device sorting
+- :white_check_mark: CRUD device
+- :white_check_mark: Fully responsive
+- :white_check_mark: Support i18n (multiple languages)
+- :white_check_mark: Deploy & CI/CD
+- :white_check_mark: Storybook setup
+- :white_check_mark: Initial e2e testing (Cypress)
+- :white_check_mark: README
+- :white_check_mark: Basic validations
+- :white_check_mark: Connect to API
+- :white_check_mark: Navigation fully accessible
 
 
 ## Next steps
