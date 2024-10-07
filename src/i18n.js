@@ -16,10 +16,6 @@ i18n
     backend: {
       loadPath: `${process.env.NODE_ENV !== "production" ? '/ninjaone-client' : '' }/locales/{{lng}}/translation.json` // Path to language files
     },
-    // detection: {
-    //   order: ['queryString', 'cookie', 'localStorage', 'navigator'],
-    //   caches: ['localStorage', 'cookie'],
-    // }
   });
 
 export default i18n;
