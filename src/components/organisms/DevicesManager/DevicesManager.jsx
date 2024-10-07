@@ -407,7 +407,7 @@ export const DevicesManager = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col" data-cy="device-list">
           <div className="px-3 border-b border-b-[#CBCFD3]">
             <h5 className="py-2 font-medium text-[15px]">{t("device")}</h5>
           </div>
@@ -416,6 +416,7 @@ export const DevicesManager = () => {
               <div
                 className="px-3 py-[9px] border-b border-b-[#E7E8EB] hover:bg-[#F4F4F5] focus:bg-[#F4F4F5]"
                 key={device.id}
+                data-cy="device-item"
               >
                 <div className="flex flex-row justify-between items-center transition-all">
                   <div className="flex flex-col gap-1">
