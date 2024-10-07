@@ -4,6 +4,7 @@
     "changeLanguage": "Change Language",
     "en": "English",
     "pt-BR": "Portuguese (Brazil)",
+    "es": "Spanish",
     "ALL": "All",
     "WINDOWS": "Windows Workstation",
     "LINUX": "Linux",
@@ -37,10 +38,13 @@
     "deleteDeviceSuccessMessage": "The device was successfully deleted.",
     "updateDeviceErrorMessage": "There was an error updating the device, please try again later.",
     "updateDeviceSuccessMessage": "The device was successfully updated.",
+    "addDeviceErrorMessage": "There was an error creating the device, please try again later.",
+    "addDeviceSuccessMessage": "The device was successfully created.",
     "systemName": "System Name",
     "hddCapacityGb": "HDD Capacity (GB)",
     "hddCapacityRequired": "HDD Capacity is required.",
     "hddCapacityWrongValue": "HDD Capacity must be a number greater than 0",
+    "hddCapacityDecimaValue": "HDD Capacity must be a integer number",
     "systemNameRequired": "System Name is required.",
     "systemNameWrongValue": "System Name must be only numbers, uppercase letters and -."
 }

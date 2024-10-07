@@ -1,5 +1,5 @@
 import { React } from "react";
-import { LANGUAGES } from "../../../constants/config";
+import { LANGUAGES, LANGUAGES_LABEL } from "../../../constants/config";
 import Dropdown from "../../atoms/Dropdown/Dropdown";
 import { useTranslation } from "react-i18next";
 
@@ -19,7 +19,7 @@ export const Footer = () => {
           name={t("changeLanguage")}
           items={LANGUAGES.map((item) => (
             <button onClick={() => handleChangeLanguage(item)} key={item}>
-              <span className="">{t(item)}</span>
+              <span className="">{LANGUAGES_LABEL[item]}</span>
             </button>
           ))}
           className="btn btn-outline btn-small text-white border-white min-w-48 "

@@ -59,6 +59,8 @@ export const EditDeviceModal = ({ device, onSuccess, onClose }) => {
           tempErrors.push(t("hddCapacityRequired"));
         } else if (isNaN(value) || Number(value) <= 0) {
           tempErrors.push(t("hddCapacityWrongValue"));
+        } else if (!/^-?\d+$/.test(value)) {
+          tempErrors.push(t("hddCapacityDecimaValue"));
         }
         break;
     }

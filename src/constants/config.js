@@ -10,4 +10,10 @@ export const SORT_BY_CRITERIA = [
 
 export const FILTER_DEVICE_CRITERIA = ["ALL", "WINDOWS", "LINUX", "MAC"];
   
-export const LANGUAGES = ["en", "pt-BR"];
+export const LANGUAGES = ["en", "pt-BR", "es"];
+
+export const LANGUAGES_LABEL = {
+  "en": "English", 
+  "pt-BR": "Português (Brasil)", 
+  "es": "Español",
+};
