@@ -14,6 +14,7 @@ The project has a simple SPA architecture with the following stack:
 - [React](https://reactjs.org/): A JavaScript library for building user interfaces.
 - [Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework for rapidly building custom designs.
 - [DaisyUI](https://daisyui.com/): A plugin for Tailwind CSS that provides a set of ready-to-use components.
+- [Cypress](https://www.cypress.io/): A powerful end-to-end testing framework that makes it easy to test your web applications in an automated and reliable way. Cypress provides fast, reliable tests with real-time feedback and detailed error reporting.
 - [Storybook](https://storybook.js.org/): A development environment for UI components that allows you to build, test, and document your UI components in isolation.
 - [ESLint](https://eslint.org/): A pluggable linting utility for JavaScript and JSX that enforces coding best practices and helps catch errors.
 - [Prettier](https://prettier.io/): An opinionated code formatter that ensures consistent code style across your project.
@@ -73,26 +74,30 @@ npm run storybook
 npm run build-storybook
 ```
 
+## Cool Features
+
+- :white_check_mark: Device filters
+- :white_check_mark: Device sorting
+- :white_check_mark: CRUD device
+- :white_check_mark: Fully responsive
+- :white_check_mark: Support i18n (mulyiple languages)
+- :white_check_mark: Deploy & CI/CD
+- :white_check_mark: Setup & start Storybook DOCs
+- :white_check_mark: Initial e2e testing workflow with cypress
+- :white_check_mark: README
+- :white_check_mark: Basic validations
+- :white_check_mark: Connect to API
+- :white_check_mark: Navigation fully accessible
+
+
 ## Next steps
 
-- [x] Device filters
-- [x] Device sorting
-- [x] CRUD device
-- [x] Fully responsive
-- [x] Support i18n (mulyiple languages)
-- [x] Deploy & CI/CD
-- [x] Setup & start Storybook DOCs
-- [x] Readme
-- [x] Basic validations
-- [x] Connect to API
-- [x] Navigation fully accessible
 - [ ] Deployment via CI/CD
 - [ ] Add 400 and 500 error pages
 - [ ] Better support to meta data
 - [ ] Improve linting config
 - [ ] Fix Dropdown closing behavior
 - [ ] Refactor components 'EditDeviceModal' and 'AddDeviceModal'
-- [ ] Add testing workflows
 - [ ] Improve transitions & animations
 - [ ] Full support to TypeScript
 - [ ] Refactor 'validateFields'
