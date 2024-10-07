@@ -75,23 +75,10 @@ export const DevicesManager = () => {
   };
 
   const handleShowHideFilters = () => {
-    console.log("handleShowHideFilters", showFiltersMobile);
     setShowFiltersMobile(!showFiltersMobile);
   };
 
-  const onSuccessAddedDevice = (newDevice) => {
-    console.log(`onSuccessAddedDevice`);
-
-    // const newDevice = {
-    //   id: id,
-    //   system_name: systemName,
-    //   type: type,
-    //   hdd_capacity: hddCapacity,
-    // };
-
-    // let newData = data.push(newDevice);
-    // setActiveDevice(null);
-    // setData(newData); // Update state to add the new device
+  const onSuccessAddedDevice = () => {
     fetchDevicesData();
   };
 
@@ -151,7 +138,6 @@ export const DevicesManager = () => {
   };
 
   const filterAndSortDevices = () => {
-    console.log(`filterAndSortDevices`);
     let filtered = data;
 
     // Filter devices based on the search term
@@ -225,7 +211,6 @@ export const DevicesManager = () => {
   }, [activeDevice]);
 
   useEffect(() => {
-    console.log(`effect fetch data`);
     fetchDevicesData(); // Call the fetch function
   }, []); // Empty dependency array means this effect runs once after the initial render
 
