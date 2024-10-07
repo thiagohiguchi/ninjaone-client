@@ -14,6 +14,7 @@ import Loading from "../../atoms/Loading/Loading";
 import DeviceTypeIcon from "../../atoms/DeviceTypeIcon/DeviceTypeIcon";
 import RemoveDeviceModal from "../RemoveDeviceModal/RemoveDeviceModal";
 import EditDeviceModal from "../EditDeviceModal/EditDeviceModal";
+import AddDeviceModal from "../AddDeviceModal/AddDeviceModal";
 
 export const DevicesManager = () => {
   const { t } = useTranslation();
@@ -88,9 +89,10 @@ export const DevicesManager = () => {
     //   hdd_capacity: hddCapacity,
     // };
 
-    let newData = data.push(newDevice);
-    setActiveDevice(null);
-    setData(newData); // Update state to add the new device
+    // let newData = data.push(newDevice);
+    // setActiveDevice(null);
+    // setData(newData); // Update state to add the new device
+    fetchDevicesData();
   };
 
   const onSuccessEditedDevice = (deviceUpdated) => {
@@ -242,7 +244,7 @@ export const DevicesManager = () => {
               type="primary"
               size="small"
               label={t("addDevice")}
-              onClick={() => document.getElementById("ab1coL2n9").showModal()}
+              onClick={() => document.getElementById("add-device").showModal()}
             >
               <div className="flex gap-1 items-center">
                 <svg
@@ -498,6 +500,11 @@ export const DevicesManager = () => {
           <EditDeviceModal
             device={activeDevice}
             onSuccess={onSuccessEditedDevice}
+            onClose={() => setActiveDevice(null)}
+          />
+
+          <AddDeviceModal
+            onSuccess={onSuccessAddedDevice}
             onClose={() => setActiveDevice(null)}
           />
         </div>
