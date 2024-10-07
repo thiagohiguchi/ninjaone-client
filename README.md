@@ -5,6 +5,7 @@
 This repo organizes the source code of the NinjaOne React Showcase.
 
 :rocket: [LIVE DEMO](https://thiagohiguchi.github.io/ninjaone-client/)
+The first request from the backend API might take a while due to limitations of the platform.
 
 
 The project has a simple SPA architecture with the following stack:
