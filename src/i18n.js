@@ -14,7 +14,7 @@ i18n
       escapeValue: false // React already escapes by default
     },
     backend: {
-      loadPath: '/locales/{{lng}}/translation.json' // Path to language files
+      loadPath: import.meta.env.VITE_TRANSLATION_BASE_PATH+'/locales/{{lng}}/translation.json' // Path to language files
     },
     // detection: {
     //   order: ['queryString', 'cookie', 'localStorage', 'navigator'],
