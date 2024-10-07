@@ -220,7 +220,7 @@ export const DevicesManager = () => {
 
   return (
     <div className="pt-6 pb-12">
-      <div className="max-width w-11/12 mx-auto">
+      <div className="max-w-internal w-9/10 mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h4 className="text-[20px]">{t("devices")}</h4>
           <div className="">

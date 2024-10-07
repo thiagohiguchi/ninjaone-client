@@ -13,7 +13,7 @@ export const Footer = () => {
 
   return (
     <div className="bg-brand py-3">
-      <div className="max-width w-11/12 mx-auto flex justify-center md:justify-end">
+      <div className="max-w-internal w-9/10 mx-auto flex justify-center md:justify-end">
         <Dropdown
           position="top-end"
           name={t("changeLanguage")}
