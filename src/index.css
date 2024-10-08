@@ -23,6 +23,14 @@
   @apply p-0;
 }
 
+.alert-success {
+  @apply !bg-[#bbf7d0];
+}
+
+.alert-error {
+  @apply !bg-[#fecaca];
+}
+
 body {
   font-family: "Inter", sans-serif;
 }
