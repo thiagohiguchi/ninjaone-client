@@ -14,10 +14,10 @@ import Alert from "../../atoms/Alert/Alert";
 import Dropdown from "../../atoms/Dropdown/Dropdown";
 import { Modal, closeModal } from "../../molecules/Modal/Modal";
 
-export const EditDeviceModal = ({ device, onSuccess, onClose }) => {
+export const UpdateDeviceModal = ({ device, onSuccess, onClose }) => {
   const { t } = useTranslation();
 
-  const MODAL_ID = "edit-device";
+  const MODAL_ID = "update-device";
   const DEVICE_TYPE = FILTER_DEVICE_CRITERIA.slice(1);
   const [editedDevice, setEditedDevice] = useState({
     system_name: "",
@@ -302,10 +302,10 @@ export const EditDeviceModal = ({ device, onSuccess, onClose }) => {
 };
 
 // Add PropTypes validation
-EditDeviceModal.propTypes = {
+UpdateDeviceModal.propTypes = {
   device: PropTypes.object,
   onSuccess: PropTypes.func,
   onClose: PropTypes.func,
 };
 
-export default EditDeviceModal;
+export default UpdateDeviceModal;

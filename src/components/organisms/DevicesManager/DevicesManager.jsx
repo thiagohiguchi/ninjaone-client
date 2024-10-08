@@ -13,7 +13,7 @@ import Button from "../../atoms/Button/Button";
 import Loading from "../../atoms/Loading/Loading";
 import DeviceTypeIcon from "../../atoms/DeviceTypeIcon/DeviceTypeIcon";
 import RemoveDeviceModal from "../RemoveDeviceModal/RemoveDeviceModal";
-import EditDeviceModal from "../EditDeviceModal/EditDeviceModal";
+import UpdateDeviceModal from "../UpdateDeviceModal/UpdateDeviceModal";
 import AddDeviceModal from "../AddDeviceModal/AddDeviceModal";
 
 export const DevicesManager = () => {
@@ -437,8 +437,10 @@ export const DevicesManager = () => {
                       name={t("editOrDelete")}
                       items={[
                         <button
-                          onClick={() => handleModal(device.id, `edit-device`)}
-                          key={`edit-${device.id}`}
+                          onClick={() =>
+                            handleModal(device.id, `update-device`)
+                          }
+                          key={`update-${device.id}`}
                         >
                           {t("edit")}
                         </button>,
@@ -483,7 +485,7 @@ export const DevicesManager = () => {
             onClose={() => setActiveDevice(null)}
           />
 
-          <EditDeviceModal
+          <UpdateDeviceModal
             device={activeDevice}
             onSuccess={onSuccessEditedDevice}
             onClose={() => setActiveDevice(null)}
