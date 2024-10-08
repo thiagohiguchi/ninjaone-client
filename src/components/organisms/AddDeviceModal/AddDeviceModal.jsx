@@ -152,7 +152,7 @@ export const AddDeviceModal = ({ onSuccess, onClose }) => {
     <>
       <Modal modalId={MODAL_ID} onClose={() => onClose()}>
         <>
-          <h4 className="text-lg leading-lg mb-6">{t("editDevice")}</h4>
+          <h4 className="text-lg leading-lg mb-6">{t("addDevice")}</h4>
 
           <div className="flex flex-col gap-4 mb-6">
             <div className="flex flex-col gap-2 w-full">
@@ -177,20 +177,9 @@ export const AddDeviceModal = ({ onSuccess, onClose }) => {
               <label htmlFor="type" className="text-sm leading-md">
                 {`${t("deviceType")}*`}
               </label>
-              {/* <Input
-                  type="text"
-                  placeholder={t("deviceType")}
-                  value={newDevice.type}
-                  onChange={handleInputChange}
-                  className={cx(
-                    "w-full",
-                    checkSingleFieldErrors("type") && "input-error"
-                  )}
-                  name="type"
-                /> */}
               <Dropdown
                 position="bottom"
-                name={t("filterByDeviceType")}
+                name={t("deviceType")}
                 items={DEVICE_TYPE.map((deviceType) => (
                   <button
                     onClick={() =>
