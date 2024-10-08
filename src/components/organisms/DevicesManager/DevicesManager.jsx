@@ -286,6 +286,7 @@ export const DevicesManager = () => {
                 <Dropdown
                   position="bottom"
                   name={t("filterByDeviceType")}
+                  closeOnClickItem={false}
                   items={FILTER_DEVICE_CRITERIA.map((deviceType) => (
                     <label
                       className="label justify-start cursor-pointer"
