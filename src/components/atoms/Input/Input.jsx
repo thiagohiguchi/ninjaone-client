@@ -1,5 +1,6 @@
 import { React } from "react";
 import PropTypes from "prop-types";
+import { cx } from "classix";
 
 export const Input = ({
   type = "text",
@@ -9,9 +10,15 @@ export const Input = ({
   onChange,
   name,
   icon = null,
+  error = false,
 }) => {
   return (
-    <label className="input input-bordered flex items-center gap-2 font-normal text-sm leading-sm">
+    <label
+      className={cx(
+        "input input-bordered flex items-center gap-2 font-normal text-sm leading-sm",
+        error && "!border-error"
+      )}
+    >
       {icon}
 
       <input
@@ -39,6 +46,7 @@ Input.propTypes = {
   name: PropTypes.string.isRequired, // Name is required and should be a string
   icon: PropTypes.element,
   className: PropTypes.string, // className is optional but should be a string if provided
+  error: PropTypes.bool,
 };
 
 export default Input;

@@ -100,9 +100,9 @@ npm run cypress:open
 - [ ] Better support to meta data
 - [ ] Improve linting config
 - [ ] Fix Dropdown closing behavior
-- [ ] Refactor components 'EditDeviceModal' and 'AddDeviceModal'
 - [ ] Improve transitions & animations
 - [ ] Full support to TypeScript
 - [ ] Refactor 'validateFields'
 - [ ] Improve accessibility
+- [ ] Improve tests coverage
 And much, much, much more.

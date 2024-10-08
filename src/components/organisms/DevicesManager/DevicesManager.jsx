@@ -246,7 +246,6 @@ export const DevicesManager = () => {
                 <span className="text-white">{t("addDevice")}</span>
               </div>
             </Button>
-            {/* <AddDeviceModal id="addDevice"></AddDeviceModal> */}
           </div>
         </div>
         <div className="flex flex-col-reverse justify-between items-start lg:flex-row lg:items-center mb-4">
